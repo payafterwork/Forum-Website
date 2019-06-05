@@ -25,3 +25,30 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
     ];
 });
+
+
+$factory->define(Question::class, function (Faker $faker) {
+    return [
+        'user_id' => function(){
+            return factory('App\User')->create()->id;
+        },
+        'qnop' => $faker->sentence,
+        'qtitle' => $faker->sentence,
+        'qdetails' => $faker->sentence,
+       
+     ];
+});
+
+$factory->define(Answer::class, function (Faker $faker) {
+    return [
+        'user_id' => function(){
+            return factory('App\User')->create()->id;
+        },
+        'question_id' => function(){
+            return factory('App\Question')->create()->id;
+        },
+        'rating' => $faker->numberBetween($min = 0, $max = 5),
+        'ans' => $faker->sentence
+     ];
+});
+
