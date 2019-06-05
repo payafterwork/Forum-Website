@@ -13,13 +13,14 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {   
+        $questions = Question::latest()->get();
+        return view('questions.index',compact('questions'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
+     * 
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -46,7 +47,8 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        //
+         return view('questions.show', compact('question'));
+   
     }
 
     /**
