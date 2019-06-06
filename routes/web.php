@@ -22,3 +22,5 @@ Route::get('/questions/{question}','QuestionController@show')
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/questions/{question}/answers','AnswerController@store');

@@ -25,6 +25,17 @@ class QuestionsTest extends TestCase
 
     }
 
+    /** @test */
+    public function question_can_add_answers()
+    {
+        $question = factory('App\Question')->create();
+        $question->addAnswer([
+         'ans'=>'Foobarr',
+         'user_id'=>1
+        ]);
+        $this->assertCount(1,$question->answers);
+    }
+
 
    
 }

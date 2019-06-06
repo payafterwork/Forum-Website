@@ -12,7 +12,6 @@
                      <p>{{$question->qdetails}}</p>
                      <hr>
                 </div>
-
                 <div class="card-body">
                     @foreach($question->answers as $answer)
                     <div class="card-header">
@@ -23,9 +22,29 @@
                     @endforeach
                     
                 </div>
-             
-               
-        
+                <div class="class-body">
+                   @if (auth()->check())
+            <div class="card">
+               <div class="card-header">
+
+                 <form method="POST" action="{{ $question->path().'/answers'}}">
+                  {{ csrf_field() }}
+                  <div class="from-group">
+                    
+                   <textarea class="form-control" name="ans" id="body" rows="5" placeholder="Add your answer"></textarea><br>
+                   <button class="btn btn-default" type="submit">POST</button>
+                  </div>
+                 </form>
+               </div>                   
+              
+
+            </div>
+          @else
+            <p><a href="{{ route('login')}}">Sign in</a> to add answer.</p>
+          @endif
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
