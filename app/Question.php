@@ -10,4 +10,9 @@ class Question extends Model
 	{
 		return '/questions/'.$this->id;
 	}
+   public function answers()
+	{
+	    return $this->hasMany(Answer::class);	
+	}
+
 }

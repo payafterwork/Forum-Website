@@ -12,6 +12,17 @@
                      <p>{{$question->qdetails}}</p>
                      <hr>
                 </div>
+
+                <div class="card-body">
+                    @foreach($question->answers as $answer)
+                    <div class="card-header">
+                        {{$answer->owner->name}} said {{$answer->created_at->diffForHumans()}}
+                    </div>
+                    
+                    <p>{{$answer->ans}}</p>
+                    @endforeach
+                    
+                </div>
              
                
         
