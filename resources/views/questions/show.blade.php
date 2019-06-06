@@ -7,7 +7,7 @@
             <div class="card">
 
                 <div class="card-body">
-                    <div class="card-header"> asked
+                    <div class="card-header">{{$question->creator->name}} asked
                     <h3>{{$question->qnop}}<h3><a>{{$question->qtitle}}</a></h4>
                      <p>{{$question->qdetails}}</p>
                      <hr>

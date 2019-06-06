@@ -17,6 +17,14 @@ class QuestionsTest extends TestCase
     	$this->assertInstanceOf('Illuminate\Database\Eloquent\Collection',$question->answers);
 
     }
+     /** @test */
+    public function question_has_creator()
+    {
+        $question = factory('App\Question')->create();
+        $this->assertInstanceOf('App\User',$question->creator);
+
+    }
+
 
    
 }
