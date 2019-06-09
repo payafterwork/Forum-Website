@@ -24,17 +24,14 @@ class ParticipateInTest extends TestCase
           $this->get($question->path())
                ->assertSee($answer->ans);
     } 
-   /** @test  NOT WORKING
+   /** @test */
    public function guests_cannot_answer_question()
-   {   
-
-
-       $this->expectException('Illuminate\Auth\AuthenticationException');
-         
+   {
+       $this->post('questions/1/answers')
+            ->assertRedirect('/login');
 
    }
  
-   */
 
 
 }

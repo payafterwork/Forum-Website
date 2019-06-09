@@ -12,20 +12,25 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('auth')->only(['store','create']); //if unauthenticated calls these, will be redirected to /login
+    }
+
     public function index()
-    {   
-        $questions = Question::latest()->get();
+    {    
+        $questions =  Question::latest()->get();
         return view('questions.index',compact('questions'));
     }
 
     /**
      * Show the form for creating a new resource.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('questions.create');
     }
 
     /**
@@ -35,8 +40,19 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {  
+       //$this->validate($request,[
+       // 'qtitle' => 'required',
+        //'qdetails'=> 'required',
+       // 'subject_id' => 'required|exists:subjects,id'
+       //]); 
+       $question = Question::create([
+            'user_id'=>auth()->id(),
+            'qtitle'=>request('qtitle'),
+            'qdetails'=>request('qdetails'),
+            'qnop'=>request('qnop')
+        ]);
+       return redirect($question->path());
     }
 
     /**
@@ -45,10 +61,9 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show(Question $question)
+    public function show(Question $question) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
     {
-         return view('questions.show', compact('question'));
-   
+        return view('questions.show', compact('question'));
     }
 
     /**

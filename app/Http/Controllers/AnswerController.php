@@ -8,7 +8,7 @@ class AnswerController extends Controller
 {   
 	function __construct()
     {
-    	$this->middleware('auth')->only(['store']);
+    	$this->middleware('auth')->only(['store']);//if unauthenticated calls these, will be redirected to /login
     }
     
     public function store(Question $question)
