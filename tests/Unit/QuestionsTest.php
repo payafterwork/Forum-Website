@@ -35,7 +35,23 @@ class QuestionsTest extends TestCase
         ]);
         $this->assertCount(1,$question->answers);
     }
+   
+      /** @test */
+    public function question_belongsto_subject()
+    { 
 
+        $question = factory('App\Question')->create();
+        $this->assertInstanceOf('App\Subject',$question->subject);
+    }
+
+    
+   /** @test */
+    public function question_can_make_string_path()
+    { 
+
+        $question = factory('App\Question')->create();
+        $this->assertEquals('/questions/'.$question->subject->subslug.'/'.$question->id,$question->path());
+    }
 
    
 }

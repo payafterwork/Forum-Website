@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Question;
+use App\Channel;
 use Illuminate\Http\Request;
+use View;
+
 
 class QuestionController extends Controller
 {
@@ -14,12 +17,21 @@ class QuestionController extends Controller
      */
     function __construct()
     {
-        $this->middleware('auth')->only(['store','create']); //if unauthenticated calls these, will be redirected to /login
+        $this->middleware('auth')->only(['store','create']);
     }
 
     public function index()
-    {    
+    {   
+
+      /* if($subjectslug) {
+        $subjectId = Channel::where('slug',$channelslug)->first()->id;
+        $question = Question::where('subject_slug',$subjectslug)->latest()->get();
+       } else {
         $questions =  Question::latest()->get();
+       }
+       */
+
+       $questions =  Question::latest()->get();
         return view('questions.index',compact('questions'));
     }
 
@@ -41,27 +53,28 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {  
-       //$this->validate($request,[
-       // 'qtitle' => 'required',
-        //'qdetails'=> 'required',
-       // 'subject_id' => 'required|exists:subjects,id'
-       //]); 
+        $this->validate($request,[
+          'qtitle' => 'required',
+          'qdetails'=> 'required',
+          'subject_id' => 'required|exists:subjects,id'
+        ]); 
        $question = Question::create([
             'user_id'=>auth()->id(),
             'qtitle'=>request('qtitle'),
             'qdetails'=>request('qdetails'),
-            'qnop'=>request('qnop')
+            'qnop'=>request('qnop'),
+            'subject_id'=>request('subject_id')  
         ]);
        return redirect($question->path());
     }
 
     /**
      * Display the specified resource.
-     *
+     * @param \App\Subject $subjectid
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show(Question $question) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
+    public function show($subjectid, Question $question) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
     {
         return view('questions.show', compact('question'));
     }

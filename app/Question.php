@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-	protected $fillable = ['rating','ans','qnop','qtitle','qdetails','user_id','subject_id'];
-   public function path()
+     protected $fillable = ['rating','ans','qnop','qtitle','qdetails','user_id','subject_id'];
+	public function path()
 	{
-		return '/questions/'.$this->id;
+		return '/questions/'.$this->subject->subslug.'/'.$this->id;
 	}
-   public function answers()
+
+	public function answers()
 	{
 	    return $this->hasMany(Answer::class);	
 	}
@@ -23,6 +24,9 @@ class Question extends Model
 	{
 		$this->answers()->create($answer);
 	}
-
-
+	public function subject() 
+	{
+		return $this->belongsTo(Subject::class);
+	}
+    
 }

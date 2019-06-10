@@ -1,6 +1,7 @@
 <?php
 
-/*-------------------------
+/*
+|--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -14,11 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Auth::routes();
-Route::post('/questions/{question}/answers','AnswerController@store');
+Route::post('/questions/{subject}/{question}/answers','AnswerController@store');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/questions','QuestionController@store');
 Route::get('/questions/create','QuestionController@create');
 Route::get('/questions','QuestionController@index');
-Route::get('/questions/{question}','QuestionController@show');
+Route::get('/questions/{subject}/{question}','QuestionController@show');
+/* Route::get('/questions/{subject}','QuestionController@index'); */
+
+?>

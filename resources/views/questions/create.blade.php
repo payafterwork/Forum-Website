@@ -14,6 +14,7 @@
                         <input placeholder="Question title here" name="qtitle" type="text" class="form-control">
                         <textarea placeholder="Question details here" name="qdetails"></textarea>
                         <input placeholder="Question number with part" name="qnop" type="text" class="form-control">
+                        <input placeholder="SubjectID" name="subject_id" type="text" class="form-control">
                         <button type="submit"
                         class="btn-primary">Post Question</button>
                        </form> 

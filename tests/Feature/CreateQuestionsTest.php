@@ -39,6 +39,50 @@ class CreateQuestionsTest extends TestCase
         $this->post('/questions')
              ->assertRedirect('/login');     
    }
+
+   
+// VALIDATION TESTS AHEAD
+
+     public function publishQwithValidation($overrides = [])
+   {
+        // Given signed in
+    $user = factory('App\User')->create();
+    $this->be($user);
+    $question = factory('App\Question')->make($overrides); 
+    //We create a post request for question
+    return $this->post('/questions',$question->toArray()); 
+       
+   }
+
+   /** @test */
+   public function question_requires_qtitle()
+   {    //If we publish question with null qtitle and
+      $this->publishQwithValidation(['qtitle'=>null])
+           ->assertSessionHasErrors('qtitle'); //then it must show us errors
+    }
+
+       /** @test */
+   public function question_requires_qdetails()
+   {    //If we publish question with null qdetails and
+      $this->publishQwithValidation(['qdetails'=>null])
+           ->assertSessionHasErrors('qdetails'); //then it must show us errors
+    }
+
+        /** @test */
+   public function question_requires_subject_id()
+   {   
+
+    factory('App\Subject',2)->create();
+    //If we publish question with null subject_id and
+      $this->publishQwithValidation(['subject_id'=>null])
+           ->assertSessionHasErrors('subject_id'); //then it must show us errors
+
+      //If we publish question with invalid subject_id and
+      $this->publishQwithValidation(['subject_id'=>999])
+           ->assertSessionHasErrors('subject_id'); //then it must show us errors      
+    }
+
+
 }
 
 ?>

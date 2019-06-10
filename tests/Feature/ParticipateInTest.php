@@ -27,9 +27,24 @@ class ParticipateInTest extends TestCase
    /** @test */
    public function guests_cannot_answer_question()
    {
-       $this->post('questions/1/answers')
+       $this->post('questions/subject/1/answers')
             ->assertRedirect('/login');
 
+   }
+
+   /** @test */
+   public function answer_required_ans_data()
+   {
+         // Given signed in
+    $user = factory('App\User')->create();
+    $this->withExceptionHandling()->be($user);
+    $question = factory('App\Question')->create(); 
+    $answer = factory('App\Answer')->make(['ans'=>null]);
+    //We create a post request for answer
+    return $this->post($question->path().'/answers',$answer->toArray())
+        ->assertSessionHasErrors('ans'); //then it must show us errors as ans is null
+     
+    
    }
  
 
