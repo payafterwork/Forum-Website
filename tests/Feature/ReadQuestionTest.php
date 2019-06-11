@@ -44,5 +44,15 @@ class ReadQuestionTest extends TestCase
 
    }
 
-    
+    /** @test */
+   public function user_can_filter_question_wrt_subject()
+   {
+       $subject = factory('App\Subject')->create();
+       $questionInSubject = factory('App\Question')->create(['subject_id'=>$subject->id]);
+       $questionNotInSubject = factory('App\Question')->create();
+       $this->get('/questions/'.$subject->subslug)
+        ->assertSee($questionInSubject->qtitle)
+        ->assertDontSee($questionNotInSubject->qtitle);   }
+
+
 }

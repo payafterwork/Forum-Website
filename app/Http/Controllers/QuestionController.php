@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Question;
-use App\Channel;
+use App\Subject;
 use Illuminate\Http\Request;
 use View;
 
@@ -20,19 +20,30 @@ class QuestionController extends Controller
         $this->middleware('auth')->only(['store','create']);
     }
 
-    public function index()
-    {   
-
-      /* if($subjectslug) {
-        $subjectId = Channel::where('slug',$channelslug)->first()->id;
-        $question = Question::where('subject_slug',$subjectslug)->latest()->get();
+    public function index($subjectslug = null) /* 2nd  (Subject $subject)*/
+    {   /*1st  QUESTION BELONGS TO SUBJECT WAY*/
+      if($subjectslug) {
+        $subjectid = Subject::where('subslug',$subjectslug)->first()->id;
+        $questions = Question::where('subject_id',$subjectid)->latest()->get();
        } else {
         $questions =  Question::latest()->get();
        }
-       */
 
-       $questions =  Question::latest()->get();
-        return view('questions.index',compact('questions'));
+       return view('questions.index',compact('questions'));
+ /*2nd
+ SUBJECT HAS MANY QUESTIONS WAY (TDD DIDN'T PASS-!!!!!)       
+
+     if($subject->exists){
+            $questions = $subject->questions()->latest()->get();
+
+        }else{
+            $questions = Question::latest()->get();
+        }
+
+         return view('questions.index',compact('questions'));
+    */
+
+       
     }
 
     /**

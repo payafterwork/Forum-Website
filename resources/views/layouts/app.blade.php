@@ -34,6 +34,16 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                     <li><a href="/questions">All Question</a></li>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" role="button">Subjects</a>
+                        <ul class="dropdown-menu">
+
+                            @foreach(App\Subject::all() as $subject)
+                            <li><a href="/questions/{{$subject->subslug}}">{{$subject->subject}}</a></li>
+                            @endforeach
+                        </ul>
+                        
+                    </li>
                     <space>
                      <li><a href="/questions/create">Create Question</a> </li>
                     </ul>
