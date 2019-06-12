@@ -22,12 +22,18 @@ class QuestionController extends Controller
 
     public function index($subjectslug = null) /* 2nd  (Subject $subject)*/
     {   /*1st  QUESTION BELONGS TO SUBJECT WAY*/
-      if($subjectslug) {
+       if($subjectslug) {
         $subjectid = Subject::where('subslug',$subjectslug)->first()->id;
         $questions = Question::where('subject_id',$subjectid)->latest()->get();
        } else {
         $questions =  Question::latest()->get();
+       } 
+
+       if($username = request('by')){
+        $user = \App\User::where('name',$username)->firstOrFail();
+        $questions = $questions->where('user_id',$user->id);
        }
+
 
        return view('questions.index',compact('questions'));
  /*2nd

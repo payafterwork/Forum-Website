@@ -34,6 +34,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                     <li><a href="/questions">All Question</a></li>
+                    @if(auth()->check()) 
+                    <li><a href="/questions?by={{auth()->user()->name}}">My Questions</a></li>
+                    @endif
+                    
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" role="button">Subjects</a>
                         <ul class="dropdown-menu">

@@ -1,7 +1,7 @@
 <?php
 
 namespace Tests\Feature;
-
+use App\Auth;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -54,5 +54,15 @@ class ReadQuestionTest extends TestCase
         ->assertSee($questionInSubject->qtitle)
         ->assertDontSee($questionNotInSubject->qtitle);   }
 
-
+   
+    /** @test */
+   public function user_can_filter_question_by_username()
+   {
+       $user = factory('App\User')->create(['name'=>'JohnDoe']);
+       $this->be($user); // Used for making authenticated user
+       $questionsBYJohn = factory('App\Question')->create(['user_id'=>auth()->id()]);
+       $questionNotBYJohn = factory('App\Question')->create();
+       $this->get('/questions?by=JohnDoe')
+        ->assertSee($questionsBYJohn->qtitle)
+        ->assertDontSee($questionNotBYJohn->qtitle);   }
 }
