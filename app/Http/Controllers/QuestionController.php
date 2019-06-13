@@ -20,7 +20,7 @@ class QuestionController extends Controller
         $this->middleware('auth')->only(['store','create']);
     }
 
-    public function index($subjectslug = null) /* 2nd  (Subject $subject)*/
+    public function index($subjectslug = null,Question $question) /* 2nd  (Subject $subject)*/
     {   /*1st  QUESTION BELONGS TO SUBJECT WAY*/
        if($subjectslug) {
         $subjectid = Subject::where('subslug',$subjectslug)->first()->id;
@@ -33,6 +33,17 @@ class QuestionController extends Controller
         $user = \App\User::where('name',$username)->firstOrFail();
         $questions = $questions->where('user_id',$user->id);
        }
+
+      
+      if($mostanswered = request('mostanswered')){
+
+        $questions = $questions->sortByDesc('answers_count');
+       }
+
+        if(request()->wantsJson()){
+        return $questions;
+       }
+
 
 
        return view('questions.index',compact('questions'));
@@ -92,8 +103,7 @@ class QuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($subjectid, Question $question) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
-    {
-        return view('questions.show', compact('question'));
+    {   return view('questions.show', compact('question'));
     }
 
     /**

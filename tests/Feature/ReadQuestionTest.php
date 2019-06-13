@@ -64,5 +64,36 @@ class ReadQuestionTest extends TestCase
        $questionNotBYJohn = factory('App\Question')->create();
        $this->get('/questions?by=JohnDoe')
         ->assertSee($questionsBYJohn->qtitle)
-        ->assertDontSee($questionNotBYJohn->qtitle);   }
+        ->assertDontSee($questionNotBYJohn->qtitle);   
+      }
+
+
+    /** @test  MADE MY OWN CUSTOM SOLUTION using 'answer_count' with
+    sortByDesc('answers_count') which doesn't return JSON in descending but in browser shows correct descending question. FIND OUT WHY! 
+
+   public function user_can_filter_question_by_mostanswered()
+   {
+    
+    $question = factory('App\Question')->create();
+
+    $questionWithThreeAnswers= factory('App\Question')->create();
+    factory('App\Answer')->create(['question_id'=>$questionWithThreeAnswers->id],3);
+   
+
+    $questionWithTwoAnswers= factory('App\Question')->create();
+    factory('App\Answer')->create(['question_id'=>$questionWithTwoAnswers->id],2);
+
+    $questionWithOneAnswer= factory('App\Question')->create();
+    factory('App\Answer')->create(['question_id'=>$questionWithOneAnswer->id],1);
+
+    $response=$this->getJson('questions?mostanswered=1')->json();
+
+    $this->assertEquals([3,2,0], array_column($response,'answer_count'));
+      
+   
+
+  }
+  */
+
+
 }
