@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
      protected $fillable = ['rating','ans','user_id'];
+
+     protected $with = ['owner','favourites'];
    
     public function owner()
     {
@@ -20,8 +22,9 @@ class Answer extends Model
   }
   public function isFavourited()
     {   
-    return $this->favourites()->where('user_id',auth()->id())->exists();
+    return $this->favourites->where('user_id',auth()->id())->count();
   }
-  
-   
+  public function getFavouritesCountAttribute() {
+  	return $this->favourites->count();
+  }
 } 

@@ -8,6 +8,8 @@ class Question extends Model
 {
      protected $fillable = ['rating','ans','qnop','qtitle','qdetails','user_id','subject_id'];
 
+     protected $with = ['creator','subject'];
+
      protected static function boot(){
      	parent::boot();
      	static::addGlobalScope('answersCount',function($builder){
@@ -21,7 +23,7 @@ class Question extends Model
 
 	public function answers()
 	{
-	    return $this->hasMany(Answer::class);	
+	    return $this->hasMany(Answer::class);
 	}
 	public function creator() 
 	{
