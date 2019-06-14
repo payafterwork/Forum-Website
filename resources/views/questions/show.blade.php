@@ -22,7 +22,15 @@
                   <?php $anwers = $question->answers()->paginate(1); ?>
                     @foreach($question->answers as $answer)
                     <div class="card-header">
-                        {{$countAnswers =$answer->owner->name}} said {{$answer->created_at->diffForHumans()}}
+                        <p class="flex">{{$countAnswers =$answer->owner->name}} said {{$answer->created_at->diffForHumans()}}
+                          </p>
+                          
+                        <form method="POST" action="/answers/{{$answer->id}}/favourites">
+                          {{ csrf_field() }}
+                          <button type="submit"{{$answer->isFavourited()?'disabled':''}}> 
+                          {{$answer->favourites()->count() }} {{str_plural('Favourite',$answer->favourites()->count())}}</button>
+                          
+                        </form>
                     </div>
                     
                     <p>{{$answer->ans}}</p>
