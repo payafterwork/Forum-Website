@@ -23,5 +23,5 @@ Route::get('/questions/create','QuestionController@create');
 Route::get('/questions/{subject?}','QuestionController@index');
 Route::get('/questions/{subject}/{question}','QuestionController@show');
 Route::post('/answers/{answer}/favourites','FavouriteController@store');
-
+Route::get('/user/{user}','ProfilesController@show');
 ?>

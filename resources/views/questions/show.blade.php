@@ -6,23 +6,24 @@
         <div class="col-md-8">
             <div class="card">
               <div class="card-body">
-                This Q was published {{$question->created_at->diffforHumans()}} by <a href="#">{{$question->creator->name}}</a> and currently has {{$question->answers_count}}
+                This Q was published {{$question->created_at->diffforHumans()}} by <a href="/user/{{$question->creator->name}}">{{$question->creator->name}}</a> and currently has {{$question->answers_count}}
                      {{str_plural('answer',$question->answers_count)}}  
                 </div>
 
                 <div class="card-body">
                     <div class="card-header">{{$question->creator->name}} asked
-                    <h3>{{$question->qnop}}<h3><a>{{$question->qtitle}}</a></h4>
+                    <h3>{{$question->qnop}}<h3><a href="{{$question->path()}}">{{$question->qtitle}}</a></h4>
                      <p>{{$question->qdetails}}</p>
                      <hr>
                 </div>
 
                 <div class="card-body">
                  
-                  <?php $anwers = $question->answers()->paginate(1); ?>
+                  <?php $answers = $question->answers()->paginate(1); ?>
                     @foreach($question->answers as $answer)
                     <div class="card-header">
-                        <p class="flex">{{$countAnswers =$answer->owner->name}} said {{$answer->created_at->diffForHumans()}}
+                        <p class="flex">
+                          <a href="/user/{{$answer->owner->name}}">{{$answer->owner->name}}</a> said {{$answer->created_at->diffForHumans()}}
                           </p>
                           
                         <form method="POST" action="/answers/{{$answer->id}}/favourites">
@@ -36,7 +37,7 @@
                     <p>{{$answer->ans}}</p>
                     @endforeach
                     
-                    {{$anwers->links()}}
+                    {{$answers->links()}}
                 </div>
                 <div class="class-body">
                    @if (auth()->check())

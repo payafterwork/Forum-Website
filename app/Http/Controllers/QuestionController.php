@@ -6,6 +6,7 @@ use App\Question;
 use App\Subject;
 use Illuminate\Http\Request;
 use View;
+use App\User;
 
 
 class QuestionController extends Controller
@@ -102,8 +103,8 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show($subjectid, Question $question) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
-    {   return view('questions.show', compact('question'));
+    public function show($subjectid, Question $question, User $user) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
+    {   return view('questions.show', compact('question','user'));
     }
 
     /**
