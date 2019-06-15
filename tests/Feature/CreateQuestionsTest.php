@@ -22,9 +22,42 @@ class CreateQuestionsTest extends TestCase
                ->assertSee($question->qdetails);
        
     } 
+
+      /** @test */ 
+      public function autherized_user_can_delete_questions()
+    {
+        
+       $user = factory('App\User')-> create();
+       $this->be($user);
+       $question = factory('App\Question')->create(['user_id'=>auth()->id()]);
+       $answer = factory('App\Answer')->create(['question_id'=>$question->id]);
+       $response = $this->json('DELETE',$question->path());
+       $response->assertStatus(204);
+       $this->assertDatabaseMissing('questions',['id'=> $question->id]);
+        $this->assertDatabaseMissing('answers',['id'=>$answer->id]);
+       
+    }
    
    /** @test */ 
-   public function guests_cannot_see_create_questions_page_()
+   public function unauthorized_cannot_see_create_questions()
+   {
+        
+     //Guest cannot
+       $question = factory('App\Question')->create();
+      
+       $response = $this->delete($question->path());
+       $response->assertRedirect('/login');
+
+       //Signed in but not the owner of thread
+       $user = factory('App\User')-> create();
+       $this->be($user);
+       $response = $this->delete($question->path());
+       $response->assertStatus(403);
+       
+      
+   }
+    /** @test */ 
+   public function guests_cannot_see_delete_questions_page_()
    {
        $this->get('/questions/create')
             ->assertRedirect('/login'); 

@@ -18,7 +18,7 @@ class QuestionController extends Controller
      */
     function __construct()
     {
-        $this->middleware('auth')->only(['store','create']);
+        $this->middleware('auth')->only(['store','create','destroy']);
     }
 
     public function index($subjectslug = null,Question $question) /* 2nd  (Subject $subject)*/
@@ -103,9 +103,13 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show($subjectid, Question $question, User $user) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
-    {   return view('questions.show', compact('question','user'));
+    public function show($subjectid, Question $question) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
+    {   return view('questions.show', compact('question'));
     }
+
+
+      
+
 
     /**
      * Show the form for editing the specified resource.
@@ -136,8 +140,19 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $question)
-    {
-        //
+  public function destroy($subjectid, Question $question) 
+    {  
+
+        $this->authorize('update',$question);
+   if($question->user_id!=auth()->id()){
+    abort(403,'You do not have permission');
+   }
+
+     $question->answers()->delete();
+        $question->delete();
+        if(request()->wantsJson()){
+            return response([],204);
+        }
+        return redirect('/questions');
     }
 }

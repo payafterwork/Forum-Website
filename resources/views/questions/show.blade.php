@@ -11,6 +11,14 @@
                 </div>
 
                 <div class="card-body">
+                   @can('update',$question)
+                   <form action="{{$question->path()}}" method="POST">
+                    {{csrf_field()}}
+                    {{method_field('DELETE')}}
+                    <button type="submit">DELETE</button>
+                     
+                   </form>
+                   @endcan
                     <div class="card-header">{{$question->creator->name}} asked
                     <h3>{{$question->qnop}}<h3><a href="{{$question->path()}}">{{$question->qtitle}}</a></h4>
                      <p>{{$question->qdetails}}</p>
