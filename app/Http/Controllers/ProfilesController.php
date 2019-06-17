@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 class ProfilesController extends Controller
 {
    public function show(User $user){
+    
+    $activities =$user->activity()->with('reason')->get();
+
     return view('user.show',[
     	'profileUser' => $user,
-        'questions' => $user->questions()->paginate(10) 
+        'activities' => $user->activity()->paginate(10) 
     ]);
      
    }   

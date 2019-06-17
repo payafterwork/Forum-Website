@@ -6,7 +6,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
-{
+{    
+
+     use RecordsActivity;
      protected $fillable = ['rating','ans','user_id'];
 
      protected $with = ['owner','favourites'];
@@ -26,5 +28,9 @@ class Answer extends Model
   }
   public function getFavouritesCountAttribute() {
   	return $this->favourites->count();
+  }
+
+  public function question(){
+    return $this->belongsTo(Question::class);
   }
 } 
