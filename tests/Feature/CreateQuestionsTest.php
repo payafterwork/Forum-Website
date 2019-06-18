@@ -3,7 +3,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
+use App\Activity;
 class CreateQuestionsTest extends TestCase
 {
     use DatabaseMigrations;
@@ -35,6 +35,10 @@ class CreateQuestionsTest extends TestCase
        $response->assertStatus(204);
        $this->assertDatabaseMissing('questions',['id'=> $question->id]);
         $this->assertDatabaseMissing('answers',['id'=>$answer->id]);
+        $this->assertDatabaseMissing('activities',['reason_id'=>$question->id,'reason_type'=>get_class($question)]);
+         $this->assertDatabaseMissing('activities',['reason_id'=>$answer->id,'reason_type'=>get_class($answer)]);
+       $this->assertEquals(0,Activity::count());
+
        
     }
    

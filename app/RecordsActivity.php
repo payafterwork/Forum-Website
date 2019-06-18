@@ -4,14 +4,15 @@ namespace App;
 trait RecordsActivity{
 
 	protected static function bootRecordsActivity(){
-      foreach(static::getActivitiesToRecord() as $event){
+    
+    foreach(static::getActivitiesToRecord() as $event){
      	static::$event(function ($model) use ($event){
      	 $model->recordActivity($event);
-     
-     });
-     }
-
-	}
+  });}
+     	
+      static::deleting(function ($model){
+     	 $model->activity()->delete(); });
+}
 	protected static function getActivitiesToRecord(){
 		return ['created'];
 	}

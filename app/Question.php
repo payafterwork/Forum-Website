@@ -19,6 +19,11 @@ class Question extends Model
      		$builder->withCount('answers');
      	});
 
+     	static::deleting(function ($question){
+     	 $question->answers->each->delete();
+    });
+
+     	
      }
 
 
