@@ -43,6 +43,14 @@
                     </div>
                     
                     <p>{{$answer->ans}}</p>
+                    @can('update',$answer)
+                   <form action="/answers/{{$answer->id}}" method="POST">
+                    {{csrf_field()}}
+                    {{method_field('DELETE')}}
+                    <button type="submit">DELETE</button>
+                     
+                   </form>
+                   @endcan
                     @endforeach
                     
                     {{$answers->links()}}

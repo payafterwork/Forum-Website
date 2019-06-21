@@ -46,6 +46,42 @@ class ParticipateInTest extends TestCase
      
     
    }
+/** @test */ 
+   public function unauthorized_cannot_delete_answers()
+   {
+        
+     //Guest cannot
+       $answer = factory('App\Answer')->create();
+      
+       $response = $this->delete('/answers/{$answer}');
+       $response->assertRedirect('/login');
+
+       //Signed 
+      $user = factory('App\User')-> create();
+       $this->be($user);
+      $this->delete('/answers/{$answer}')->assertStatus(403);
+
+     }
+
+
+
+          /** @test */ 
+      public function autherized_user_can_delete_answers()
+    {
+        
+       $user = factory('App\User')-> create();
+       $this->be($user);
+       
+       $answer = factory('App\Answer')->create(['user_id'=>$user->id]);
+     
+       $this->delete('/answers/{$answer}')->assertStatus(302);
+         $this->assertDatabaseMissing('answers',['id'=> $answer->id]);
+
+       
+    }
+   
+
+
  
 
 

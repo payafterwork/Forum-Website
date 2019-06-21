@@ -11,7 +11,7 @@ class AnswerController extends Controller
 {
     function __construct()
     {
-      $this->middleware('auth')->only(['store']);
+      $this->middleware('auth')->only(['store','destroy']);
     }
 
     public function store(Request $request,$subjectid, Question $question)
@@ -26,6 +26,14 @@ class AnswerController extends Controller
           'user_id'=>auth()->id()
       ]);
        return back();
+    }
+
+  public function destroy(Answer $answer){
+      
+      $this->authorize('update',$answer);
+        $answer->delete();
+        
+        return back();
     }
 
 
