@@ -23,7 +23,7 @@ class FavouriteController extends Controller
       'favourited_type'=>get_class($answer)
    ]);
   }
-   return back();
+   return back()->with('flash','Favourited!');;
     } 
 
 }

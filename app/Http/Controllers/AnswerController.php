@@ -25,7 +25,7 @@ class AnswerController extends Controller
           'ans'=>request('ans'),
           'user_id'=>auth()->id()
       ]);
-       return back();
+       return back()->with('flash','Answer posted!');
     }
 
   public function destroy(Answer $answer){

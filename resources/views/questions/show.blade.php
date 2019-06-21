@@ -2,10 +2,11 @@
 
 @section('content')
 <div class="container">
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-              <div class="card-body">
+                <div class="card-body">
                 This Q was published {{$question->created_at->diffforHumans()}} by <a href="/user/{{$question->creator->name}}">{{$question->creator->name}}</a> and currently has {{$question->answers_count}}
                      {{str_plural('answer',$question->answers_count)}}  
                 </div>
@@ -44,9 +45,11 @@
                     
                     <p>{{$answer->ans}}</p>
                     @can('update',$answer)
+                    <button>edit</button>
                    <form action="/answers/{{$answer->id}}" method="POST">
                     {{csrf_field()}}
                     {{method_field('DELETE')}}
+
                     <button type="submit">DELETE</button>
                      
                    </form>
@@ -55,6 +58,7 @@
                     
                     {{$answers->links()}}
                 </div>
+
                 <div class="class-body">
                    @if (auth()->check())
             <div class="card">
