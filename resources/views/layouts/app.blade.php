@@ -18,6 +18,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style type="text/css">
+        
+        [v-cloak]{display: none;}
+    </style>
 </head>
 <body>
     <div id="app">

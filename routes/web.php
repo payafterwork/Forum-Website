@@ -22,9 +22,10 @@ Route::post('/questions','QuestionController@store');
 Route::get('/questions/create','QuestionController@create');
 Route::get('/questions/{subject?}','QuestionController@index');
 Route::get('/questions/{subject}/{question}','QuestionController@show');
-Route::delete('/questions/{subject}/{question}','QuestionController@destroy');
 
+Route::delete('/answers/{answer}','AnswerController@destroy');
+Route::delete('/questions/{subject}/{question}','QuestionController@destroy');
+Route::patch('/answers/{answer}','AnswerController@update');
 Route::post('/answers/{answer}/favourites','FavouriteController@store');
 Route::get('/user/{user}','ProfilesController@show');
-Route::delete('/answers/{answer}','AnswerController@destroy');
 ?>

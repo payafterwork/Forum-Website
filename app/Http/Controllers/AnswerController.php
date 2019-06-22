@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Answer;
 use App\Question;
+use App\User;
 use Illuminate\Auth\Middleware\Auth;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,7 @@ class AnswerController extends Controller
 {
     function __construct()
     {
-      $this->middleware('auth')->only(['store','destroy']);
+      $this->middleware('auth')->only(['store','destroy','update']);
     }
 
     public function store(Request $request,$subjectid, Question $question)
@@ -34,6 +35,12 @@ class AnswerController extends Controller
         $answer->delete();
         
         return back();
+    }
+
+    public function update(Answer $answer){
+      $this->authorize('update',$answer);
+      $answer->update(['ans'=>request('ans')]);
+
     }
 
 

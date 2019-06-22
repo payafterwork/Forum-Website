@@ -25,11 +25,12 @@
                      <p>{{$question->qdetails}}</p>
                      <hr>
                 </div>
-
+                 @foreach($question->answers as $answer)
+<answer :attributes="{{$answer}}" inline-template v-cloak>
                 <div class="card-body">
                  
                   <?php $answers = $question->answers()->paginate(1); ?>
-                    @foreach($question->answers as $answer)
+                   
                     <div class="card-header">
                         <p class="flex">
                           <a href="/user/{{$answer->owner->name}}">{{$answer->owner->name}}</a> said {{$answer->created_at->diffForHumans()}}
@@ -43,9 +44,23 @@
                         </form>
                     </div>
                     
-                    <p>{{$answer->ans}}</p>
+                    <p>
+                      <div v-if="editing" class="form-control" >
+                      <textarea v-model="ans">
+                       
+                      </textarea>
+                  <button @click="update">update</button>
+                  <button @click="editing=false">cancel</button> 
+                    </div>
+                    <div v-else v-text="ans">
+                    </div>
+                  
+                  </p>
+
+
                     @can('update',$answer)
-                    <button>edit</button>
+                    
+                    <button @click="editing = true">edit</button>
                    <form action="/answers/{{$answer->id}}" method="POST">
                     {{csrf_field()}}
                     {{method_field('DELETE')}}
@@ -55,11 +70,10 @@
                    </form>
                    @endcan
                     @endforeach
-                    
+</answer>                    
                     {{$answers->links()}}
-                </div>
 
-                <div class="class-body">
+                    <div class="class-body">
                    @if (auth()->check())
             <div class="card">
                <div class="card-header">
@@ -79,6 +93,9 @@
           @else
             <p><a href="{{ route('login')}}">Sign in</a> to add answer.</p>
           @endif
+                </div>
+
+        
 
                 </div>
             </div>
