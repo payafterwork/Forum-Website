@@ -11,12 +11,13 @@
        update(){
           axios.patch('/answers/'+this.attributes.id,{
              ans: this.ans
-          })->with('flash','Question created!');
+          });
 
            this.editing = false;
-           
-
-       }
+        }, destroy(){
+          axios.delete('/answers/'+this.attributes.id);
+          $(this.$el).fadeOut(300);
+        }
      }
 
   }

@@ -26,10 +26,11 @@
                      <hr>
                 </div>
                  @foreach($question->answers as $answer)
+                   <?php $answers = $question->answers()->paginate(1); ?>
 <answer :attributes="{{$answer}}" inline-template v-cloak>
                 <div class="card-body">
                  
-                  <?php $answers = $question->answers()->paginate(1); ?>
+                
                    
                     <div class="card-header">
                         <p class="flex">
@@ -61,19 +62,22 @@
                     @can('update',$answer)
                     
                     <button @click="editing = true">edit</button>
-                   <form action="/answers/{{$answer->id}}" method="POST">
+                <button @click="destroy">Delete</button>
+               </answer>   
+                 @endcan
+<!--                    <form action="/answers/{{$answer->id}}" method="POST">
                     {{csrf_field()}}
                     {{method_field('DELETE')}}
 
                     <button type="submit">DELETE</button>
                      
                    </form>
-                   @endcan
-                    @endforeach
-</answer>                    
-                    {{$answers->links()}}
+                    -->
+                  
 
-                    <div class="class-body">
+                    @endforeach
+                     {{$answers->links()}}
+                   <div class="class-body">
                    @if (auth()->check())
             <div class="card">
                <div class="card-header">
@@ -94,6 +98,9 @@
             <p><a href="{{ route('login')}}">Sign in</a> to add answer.</p>
           @endif
                 </div>
+                   
+
+                   
 
         
 

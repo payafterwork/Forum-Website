@@ -33,7 +33,9 @@ class AnswerController extends Controller
       
       $this->authorize('update',$answer);
         $answer->delete();
-        
+         if(request()->wantsJson()){
+            return response(['status'=>'Answer Deleted']);
+        }
         return back();
     }
 
