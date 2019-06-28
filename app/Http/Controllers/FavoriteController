@@ -1,0 +1,21 @@
+<?php
+namespace App\Http\Controllers;
+use App\Auth;
+use Illuminate\Http\Request;
+use App\Answer;
+class FavoriteController extends Controller
+{    
+	public function __construct(){
+		$this->middleware('auth')->only(['store']);
+	}
+  public function store(Answer $answer){
+    if(!$answer->favorites()->where(['user_id'=>auth()->id()])->exists()){
+    $answer->favorites()->insert([
+      'user_id'=>auth()->id(),
+      'favorited_id'=>$answer->id,
+      'favorited_type'=>get_class($answer)
+   ]);
+  }
+   return back();
+    } 
+}
