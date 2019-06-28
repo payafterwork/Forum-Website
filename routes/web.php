@@ -24,4 +24,5 @@ Route::get('/questions/{subject?}','QuestionController@index');
 Route::get('/questions/{subject}/{question}','QuestionController@show');
 Route::post('/answers/{answer}/favourites','FavouriteController@store');
 Route::get('/profiles/{user}', 'ProfilesController@show');
+Route::delete('/questions/{subject}/{question}','QuestionController@destroy');
 ?>

@@ -11,18 +11,27 @@
                 </div>
 
                 <div class="card-body">
+                   @can('update',$question)
+                   <form action="{{$question->path()}}" method="POST">
+                    {{csrf_field()}}
+                    {{method_field('DELETE')}}
+                    <button type="submit">DELETE</button>
+                     
+                   </form>
+                   @endcan
                     <div class="card-header">{{$question->creator->name}} asked
-                    <h3>{{$question->qnop}}<h3><a>{{$question->qtitle}}</a></h4>
+                    <h3>{{$question->qnop}}<h3><a href="{{$question->path()}}">{{$question->qtitle}}</a></h4>
                      <p>{{$question->qdetails}}</p>
                      <hr>
                 </div>
 
                 <div class="card-body">
                  
-                  <?php $anwers = $question->answers()->paginate(1); ?>
+                  <?php $answers = $question->answers()->paginate(1); ?>
                     @foreach($question->answers as $answer)
                     <div class="card-header">
-                        <p class="flex">{{$countAnswers =$answer->owner->name}} said {{$answer->created_at->diffForHumans()}}
+                        <p class="flex">
+                          <a href="/user/{{$answer->owner->name}}">{{$answer->owner->name}}</a> said {{$answer->created_at->diffForHumans()}}
                           </p>
                           
                         <form method="POST" action="/answers/{{$answer->id}}/favourites">
@@ -36,7 +45,7 @@
                     <p>{{$answer->ans}}</p>
                     @endforeach
                     
-                    {{$anwers->links()}}
+                    {{$answers->links()}}
                 </div>
                 <div class="class-body">
                    @if (auth()->check())

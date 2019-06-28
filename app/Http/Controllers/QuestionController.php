@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Question;
 use App\Subject;
 use Illuminate\Http\Request;
 use View;
-
-
+use App\User;
 class QuestionController extends Controller
 {
     /**
@@ -17,9 +14,8 @@ class QuestionController extends Controller
      */
     function __construct()
     {
-        $this->middleware('auth')->only(['store','create']);
+        $this->middleware('auth')->only(['store','create','destroy']);
     }
-
     public function index($subjectslug = null,Question $question) /* 2nd  (Subject $subject)*/
     {   /*1st  QUESTION BELONGS TO SUBJECT WAY*/
        if($subjectslug) {
@@ -28,41 +24,29 @@ class QuestionController extends Controller
        } else {
         $questions =  Question::latest()->get();
        } 
-
        if($username = request('by')){
         $user = \App\User::where('name',$username)->firstOrFail();
         $questions = $questions->where('user_id',$user->id);
        }
-
       
       if($mostanswered = request('mostanswered')){
-
         $questions = $questions->sortByDesc('answers_count');
        }
-
         if(request()->wantsJson()){
         return $questions;
        }
-
-
-
        return view('questions.index',compact('questions'));
  /*2nd
  SUBJECT HAS MANY QUESTIONS WAY (TDD DIDN'T PASS-!!!!!)       
-
      if($subject->exists){
             $questions = $subject->questions()->latest()->get();
-
         }else{
             $questions = Question::latest()->get();
         }
-
          return view('questions.index',compact('questions'));
     */
-
        
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -72,7 +56,6 @@ class QuestionController extends Controller
     {
         return view('questions.create');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -95,7 +78,6 @@ class QuestionController extends Controller
         ]);
        return redirect($question->path());
     }
-
     /**
      * Display the specified resource.
      * @param \App\Subject $subjectid
@@ -105,7 +87,7 @@ class QuestionController extends Controller
     public function show($subjectid, Question $question) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
     {   return view('questions.show', compact('question'));
     }
-
+      
     /**
      * Show the form for editing the specified resource.
      *
@@ -116,7 +98,6 @@ class QuestionController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -128,15 +109,23 @@ class QuestionController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Question $question)
-    {
-        //
+  public function destroy($subjectid, Question $question) 
+    {  
+        $this->authorize('update',$question);
+   if($question->user_id!=auth()->id()){
+    abort(403,'You do not have permission');
+   }
+     $question->answers()->delete();
+        $question->delete();
+        if(request()->wantsJson()){
+            return response([],204);
+        }
+        return redirect('/questions');
     }
 }
