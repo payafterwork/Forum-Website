@@ -37,6 +37,7 @@
                     <li><a href="/questions?mostanswered=1">Popular All Time</a></li>
                     @if(auth()->check()) 
                     <li><a href="/questions?by={{auth()->user()->name}}">My Questions</a></li>
+                    <li><a href="/profiles/{{auth()->user()->name}}">My Profile</a></li>
                     @endif
                     
                     <li class="dropdown">

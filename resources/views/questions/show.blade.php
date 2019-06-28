@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
               <div class="card-body">
-                This Q was published {{$question->created_at->diffforHumans()}} by <a href="#">{{$question->creator->name}}</a> and currently has {{$question->answers_count}}
+                This Q was published {{$question->created_at->diffforHumans()}} by <a href="/profiles/{{$question->creator->name}}">{{$question->creator->name}}</a> and currently has {{$question->answers_count}}
                      {{str_plural('answer',$question->answers_count)}}  
                 </div>
 

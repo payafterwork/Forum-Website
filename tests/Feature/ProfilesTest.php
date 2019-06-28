@@ -13,7 +13,7 @@ class ProfilesTest extends TestCase
             ->assertSee($user->name);
     }
     /** @test */
-    function profiles_display_all_threads_created_by_the_associated_user()
+    function profiles_display_all_questions_created_by_the_associated_user()
     {
         $user = factory('App\User')->create();
         $question = factory('App\Question')->create(['user_id' => $user->id]);       

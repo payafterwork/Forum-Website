@@ -14,8 +14,8 @@
                 <div class="panel-heading">
                     <div class="level">
                        <span class="flex">
-                            <a href="#">{{ $question->creator->name }}</a> posted:
-                           {{ $question->title }}
+                            <a href="/profiles/{{$question->creator->name}}">{{ $question->creator->name }}</a> posted:
+                           {{ $question->qtitle }}
                        </span>
 
                         <span>{{ $question->created_at->diffForHumans() }}</span>
@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="panel-body">
-                    {{ $question->body }}
+                    {{ $question->qdetails }}
                 </div>
             </div>
         @endforeach
