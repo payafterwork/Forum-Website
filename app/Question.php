@@ -13,6 +13,10 @@ class Question extends Model
      	static::addGlobalScope('answersCount',function($builder){
      		$builder->withCount('answers');
      	});
+     	static::deleting(function ($question){
+     	 $question->answers->each->delete();
+    });
+     	
      }
      
 	public function path()

@@ -121,7 +121,7 @@ class QuestionController extends Controller
    if($question->user_id!=auth()->id()){
     abort(403,'You do not have permission');
    }
-     $question->answers()->delete();
+     //$question->answers()->delete();
         $question->delete();
         if(request()->wantsJson()){
             return response([],204);
