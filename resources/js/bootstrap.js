@@ -44,6 +44,7 @@ if (token) {
  */
 
 // import Echo from 'laravel-echo'
+window.events = new Vue();
 
 // window.Pusher = require('pusher-js');
 
@@ -53,3 +54,6 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+window.flash = function (message) {
+    window.events.$emit('flash', message);
+};
