@@ -1,15 +1,11 @@
 <?php
-
 namespace App;
-
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Question;
 class User extends Authenticatable
 {
     use Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -18,7 +14,6 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password',
     ];
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -27,7 +22,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
     /**
      * The attributes that should be cast to native types.
      *
@@ -36,23 +30,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    /**
-     * Get the route key name for Laravel.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
+    public function getRouteKeyName(){
         return 'name';
     }
-    /**
-     * Fetch all threads that were created by the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function questions()
-    {
+    public function questions(){
         return $this->hasMany(Question::class)->latest();
+    }
+    public function activity(){
+        return $this->hasMany(Activity::class)->latest();
     }
 }

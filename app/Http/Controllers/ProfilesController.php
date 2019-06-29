@@ -1,20 +1,16 @@
 <?php
 namespace App\Http\Controllers;
 use App\User;
-use App\Question;
+use Illuminate\Http\Request;
 class ProfilesController extends Controller
 {
-    /**
-     * Show the user's profile.
-     *
-     * @param  User $user
-     * @return \Response
-     */
-    public function show(User $user)
-    {
-        return view('profiles.show', [
-            'profileUser' => $user,
-            'questions' => $user->questions()->paginate(30)
-        ]);
-    }
-}
+   public function show(User $user){
+    
+    $activities =$user->activity()->with('reason')->get();
+    return view('profiles.show',[
+        'profileUser' => $user,
+        'activities' => $user->activity()->paginate(10) 
+    ]);
+     
+   }   
+ }
