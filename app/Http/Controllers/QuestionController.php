@@ -76,7 +76,8 @@ class QuestionController extends Controller
             'qnop'=>request('qnop'),
             'subject_id'=>request('subject_id')  
         ]);
-       return redirect($question->path());
+       return redirect($question->path())
+       ->with('flash','Question created!');
     }
     /**
      * Display the specified resource.
