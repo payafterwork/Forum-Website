@@ -31,7 +31,7 @@
                     @foreach($question->answers as $answer)
                     <div class="card-header">
                         <p class="flex">
-                          <a href="/user/{{$answer->owner->name}}">{{$answer->owner->name}}</a> said {{$answer->created_at->diffForHumans()}}
+                          <a href="/profiles/{{$answer->owner->name}}">{{$answer->owner->name}}</a> said {{$answer->created_at->diffForHumans()}}
                           </p>
                           
                         <form method="POST" action="/answers/{{$answer->id}}/favourites">
@@ -43,6 +43,14 @@
                     </div>
                     
                     <p>{{$answer->ans}}</p>
+                     @can('update',$answer)
+                   <form action="/answers/{{$answer->id}}" method="POST">
+                    {{csrf_field()}}
+                    {{method_field('DELETE')}}
+                    <button type="submit">DELETE</button>
+
+                   </form>
+                   @endcan
                     @endforeach
                     
                     {{$answers->links()}}

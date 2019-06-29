@@ -1,5 +1,6 @@
 <?php 
 namespace App;
+use Illuminate\Database\Eloquent\Model;
 trait RecordsActivity{
     protected static function bootRecordsActivity(){
     

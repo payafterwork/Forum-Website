@@ -118,10 +118,10 @@ class QuestionController extends Controller
   public function destroy($subjectid, Question $question) 
     {  
         $this->authorize('update',$question);
-   if($question->user_id!=auth()->id()){
-    abort(403,'You do not have permission');
-   }
-     //$question->answers()->delete();
+   // Above lime does the same with Policesif($question->user_id!=auth()->id()){
+   //  abort(403,'You do not have permission');
+   // }
+     // Doing related answer deletion from model now  $question->answers()->delete();
         $question->delete();
         if(request()->wantsJson()){
             return response([],204);
