@@ -15,4 +15,17 @@ trait Favouritable{
   public function getFavouritesCountAttribute() {
     return $this->favourites->count();
   }
+
+   /**
+     * Unfavorite the current reply.
+     */
+    public function unfavorite()
+    {
+        $attributes = ['user_id' => auth()->id()];
+        $this->favorites()->where($attributes)->delete();
+    }
+
+    public function getIsFavouritedAttribute(){
+      return $this->isFavourited();
+    }
 }

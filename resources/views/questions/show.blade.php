@@ -34,15 +34,15 @@
                    
                     
                         <p class="flex">
-                          <a href="/user/{{$answer->owner->name}}">{{$answer->owner->name}}</a> said {{$answer->created_at->diffForHumans()}}
+                          <a href="/profiles/{{$answer->owner->name}}">{{$answer->owner->name}}</a> said {{$answer->created_at->diffForHumans()}}
                         </p>
-                          
-                        <form method="POST" action="/answers/{{$answer->id}}/favourites">
+                            <favourite :answer="{{ $answer }}"></favourite>
+                      <!--   <form method="POST" action="/answers/{{$answer->id}}/favourites">
                           {{ csrf_field() }}
                           <button type="submit"{{$answer->isFavourited()?'disabled':''}}> 
                           {{$answer->favourites_count}} {{str_plural('Favourite',$answer->favourites_count)}}</button>
                           
-                        </form>
+                        </form> -->
                  
                       <div v-if="editing" class="form-control" >
                             <textarea v-model="ans">

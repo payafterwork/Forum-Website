@@ -49,6 +49,17 @@ class FavouriteTest extends TestCase
         $this->assertCount(1,$answer->favourites);
         
    }
+
+    /** @test */
+    public function an_authenticated_user_can_unfavorite_answer()
+    {
+          $user = factory('App\User')->create();
+       $this->be($user); // Used for making authenticated user
+         $answer = factory('App\Answer')->create();
+        $answer->favourites();
+        $this->delete('answer/' . $answer->id . '/favourites');
+        $this->assertCount(0, $answer->favourites);
+    }
       
    
 

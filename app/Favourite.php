@@ -19,4 +19,5 @@ class Favourite extends Model
     {
         return $this->morphTo();
     }
+   
 }

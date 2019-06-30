@@ -6,6 +6,7 @@ class Answer extends Model
      use Favouritable,RecordsActivity;
      protected $fillable = ['rating','ans','user_id'];
      protected $with = ['owner','favourites'];
+     protected $appends = ['favouritesCount','isFavourited'];
    
     public function owner()
     {

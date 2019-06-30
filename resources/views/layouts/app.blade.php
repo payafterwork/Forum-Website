@@ -21,6 +21,7 @@
 </head>
 <style type="text/css">
       [v-cloak] { display: none; }
+      .btn-default { border:1px solid black; }
 </style>
 <body>
     <div id="app">
