@@ -8,17 +8,16 @@
   <small>{{$profileUser->created_at->diffForHumans()}}</small>
 
 
- @foreach($activities as $activity)
+ @forelse($activities as $activity)
             <div class="panel panel-default" style="background-color:white; ">             
                 
      @include("profiles.activities.{$activity->type}");
 
-            
-
-
-</div>
+            </div>
+            @empty 
+            <p>No activity for this user.</p>
        
-   @endforeach     
+   @endforelse     
 
  {{$activities->links()}}  
       

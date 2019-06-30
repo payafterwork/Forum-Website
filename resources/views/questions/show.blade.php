@@ -36,7 +36,9 @@
                         <p class="flex">
                           <a href="/profiles/{{$answer->owner->name}}">{{$answer->owner->name}}</a> said {{$answer->created_at->diffForHumans()}}
                         </p>
+                        @if (Auth::check())
                             <favourite :answer="{{ $answer }}"></favourite>
+                         @endif   
                       <!--   <form method="POST" action="/answers/{{$answer->id}}/favourites">
                           {{ csrf_field() }}
                           <button type="submit"{{$answer->isFavourited()?'disabled':''}}> 
