@@ -32,10 +32,10 @@ class AnswerController extends Controller
       
       $this->authorize('update',$answer);
         $answer->delete();
-         if(request()->wantsJson()){
-            return response([],204);
+        if(request()->wantsJson()){
+            return response(['status'=>'Answer Deleted']);
         }
-        return back()->with('flash','Deleted Answer!');
+        return back();
     }
 
     /**

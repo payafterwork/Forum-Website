@@ -16,7 +16,14 @@
 
            flash('Updated!');
            
-       }
+        },
+        destroy() {
+            axios.delete('/answers/' + this.attributes.id);
+
+            $(this.$el).fadeOut(300, function () {
+                flash('Answer deleted async!');
+            });
+        }
      }
   }
 </script> 

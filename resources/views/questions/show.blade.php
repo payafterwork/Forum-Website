@@ -26,15 +26,16 @@
                      <hr>
                 </div>
                  @foreach($question->answers as $answer)
+                   <?php $answers = $question->answers()->paginate(1); ?>
 <answer :attributes="{{$answer}}" inline-template v-cloak>
                 <div class="card-body">
                  
-                  <?php $answers = $question->answers()->paginate(1); ?>
+                
                    
-                    <div class="card-header">
+                    
                         <p class="flex">
                           <a href="/user/{{$answer->owner->name}}">{{$answer->owner->name}}</a> said {{$answer->created_at->diffForHumans()}}
-                          </p>
+                        </p>
                           
                         <form method="POST" action="/answers/{{$answer->id}}/favourites">
                           {{ csrf_field() }}
@@ -42,40 +43,31 @@
                           {{$answer->favourites_count}} {{str_plural('Favourite',$answer->favourites_count)}}</button>
                           
                         </form>
-                    </div>
-                    
-                    <p>
+                 
                       <div v-if="editing" class="form-control" >
-                      <textarea v-model="ans">
+                            <textarea v-model="ans">
                        
-                      </textarea>
-                  <button @click="update">update</button>
-                  <button @click="editing=false">cancel</button> 
-                    </div>
-                    <div v-else v-text="ans">
-                    </div>
+                            </textarea>
+                          <button @click="update">update</button>
+                           <button @click="editing=false">cancel</button> 
+                      </div>
+                    <div v-else v-text="ans"> </div>
                   
-                  </p>
-
-
-                    @can('update',$answer)
+                  @can('update',$answer)
                     
                     <button @click="editing = true">edit</button>
-                   <form action="/answers/{{$answer->id}}" method="POST">
-                    {{csrf_field()}}
-                    {{method_field('DELETE')}}
+                <button @click="destroy">Delete</button>
+           
+                 @endcan
+             </div>                  
+ </answer>   
 
-                    <button type="submit">DELETE</button>
-                     
-                   </form>
-                   
-                   @endcan
                     @endforeach
-</answer>                    
-                    {{$answers->links()}}
 
-                    <div class="class-body">
-                   @if (auth()->check())
+    
+                     {{$answers->links()}}
+               
+                   <div class="card-body">     @if (auth()->check())
             <div class="card">
                <div class="card-header">
 
@@ -94,13 +86,17 @@
           @else
             <p><a href="{{ route('login')}}">Sign in</a> to add answer.</p>
           @endif
-                </div>
+
+          </div>
+
+                   
 
         
 
-                </div>
-            </div>
         </div>
+
     </div>
+    
+
 </div>
 @endsection
