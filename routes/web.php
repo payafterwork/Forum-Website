@@ -27,5 +27,6 @@ Route::get('/profiles/{user}', 'ProfilesController@show');
 Route::delete('/questions/{subject}/{question}','QuestionController@destroy');
 
 Route::delete('/answers/{answer}','AnswerController@destroy');
+Route::patch('/answers/{answer}','AnswerController@update');
 
 ?>

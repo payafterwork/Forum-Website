@@ -67,6 +67,34 @@ class ParticipateInTest extends TestCase
          $this->assertDatabaseMissing('answers',['id'=> $answer->id]);
        
     }
-   
+   /** @test */
+   public function autherized_user_can_update_answers()
+   {
+      
+       $user = factory('App\User')->create();
+       $this->be($user);
+       
+       $answer = factory('App\Answer')->create(['user_id'=>$user->id]);
+     
+       $this->patch("/answers/{$answer->id}",['ans'=>'You should be changed']);
+         $this->assertDatabaseHas('answers',['id'=> $answer->id, 'ans'=>'You should be changed']);
+       
+    
+   } 
+   /** @test  */
+   public function unauthorized_cannot_update_answers()
+   {
+      
+     //Guest cannot
+       $answer = factory('App\Answer')->create();
+      
+       $response = $this->patch('/answers/{$answer}');
+       $response->assertRedirect('/login');
+       //Signed 
+      $user = factory('App\User')->create();
+       $this->be($user);
+       $answer = factory('App\Answer')->create();
+      $this->patch("/answers/{$answer}")->assertStatus(403);
+     }
  
 }

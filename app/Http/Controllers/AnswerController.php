@@ -8,7 +8,7 @@ class AnswerController extends Controller
 {
     function __construct()
     {
-      $this->middleware('auth')->only(['store','destroy']);
+      $this->middleware('auth')->only(['store','destroy','update']);
     }
     public function store(Request $request,$subjectid, Question $question)
     {  
@@ -35,6 +35,18 @@ class AnswerController extends Controller
          if(request()->wantsJson()){
             return response([],204);
         }
-        return back()->with('flash','Answer posted!');
+        return back()->with('flash','Deleted Answer!');
+    }
+
+    /**
+     * Update an existing reply.
+     *
+     * @param Answer $answer
+     */
+    public function update(Answer $answer)
+    {
+        $this->authorize('update', $answer);
+        $this->validate(request(), ['ans' => 'required']);
+        $answer->update(request(['ans']));
     }
 }
