@@ -15,6 +15,7 @@
 
             </div>
             @empty 
+            <p>{{$profileUser->name}}</p>
             <p>No activity for this user.</p>
        
    @endforelse     

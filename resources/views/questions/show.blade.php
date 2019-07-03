@@ -64,10 +64,10 @@
              </div>                  
  </answer>   
 
+                     {{$answers->links()}}
                     @endforeach
 
     
-                     {{$answers->links()}}
                
                    <div class="card-body">     @if (auth()->check())
             <div class="card">
