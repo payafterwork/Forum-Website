@@ -9,6 +9,7 @@
                 <div class="card-body">
                 This Q was published {{$question->created_at->diffforHumans()}} by <a href="/user/{{$question->creator->name}}">{{$question->creator->name}}</a> and currently has {{$question->answers_count}}
                      {{str_plural('answer',$question->answers_count)}}  
+             <subscribe-button :active="{{$question->isSubscribedTo ? 'true':'false'}}"> </subscribe-button>   
                 </div>
 
                 <div class="card-body">
