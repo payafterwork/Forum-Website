@@ -1,8 +1,11 @@
 <?php
 namespace App;
 use Auth;
+use App\Answer;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
 class Question extends Model
 {   
 	use RecordsActivity;
@@ -34,7 +37,18 @@ class Question extends Model
 	}
 	public function addAnswer($answer)
 	{
-		$this->answers()->create($answer);
+		$answer = $this->answers()->create($answer);
+		 // Prepare notifications for all subscribers.
+        $this->subscriptions
+            ->where('user_id', '!=', $answer->user_id)
+            ->each
+            ->notify($answer);
+		/*foreach($this->subscriptions as $subscription){
+		if($subscription->user_id!=$answer->user_id){
+			$subscription->user->notify(new Notifications\QuestionWasUpdated($this, $answer));
+		}
+		}*/
+		return $answer;
 	}
 	public function subject() 
 	{
@@ -45,6 +59,7 @@ class Question extends Model
        $this->subscriptions()->create([
       'user_id'=>$userId?:auth()->id()
       ]);
+       return $this;
  	}
 
  	public function unsubscribe($userId=null){

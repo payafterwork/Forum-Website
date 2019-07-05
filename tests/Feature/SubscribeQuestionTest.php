@@ -17,14 +17,10 @@ class SubscribeQuestionTest extends TestCase
  public function user_can_subscribe_to_questions(){
     $user = factory('App\User')->create();
        $this->be($user); 
-  $question = factory('App\Question')->create();
+   $question = factory('App\Question')->create();
   $this->post($question->path().'/subscriptions');
-  $question->addAnswer([
-  'user_id'=>auth()->id(),
-  'ans'=>'Some answer'
-  ]);
-
-  $this->assertCount(1,$question->subscriptions);
+    $this->assertCount(1,$question->subscriptions);
+ 
  }
 
 /** @test */
