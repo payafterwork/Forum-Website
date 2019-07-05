@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Notifications;
 use App\Question;
 use App\Answer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-
 class QuestionWasUpdated extends Notification
 {
     use Queueable;
@@ -24,7 +22,6 @@ class QuestionWasUpdated extends Notification
         $this->question = $question;
         $this->answer = $answer;
     }
-
     /**
      * Get the notification's delivery channels.
      *
@@ -35,9 +32,7 @@ class QuestionWasUpdated extends Notification
     {
         return ['database'];
     }
-
     
-
     /**
      * Get the array representation of the notification.
      *

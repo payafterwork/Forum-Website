@@ -5,7 +5,6 @@ use App\Answer;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-
 class Question extends Model
 {   
 	use RecordsActivity;
@@ -55,15 +54,12 @@ class Question extends Model
 		return $this->belongsTo(Subject::class);
 	}
 	public function subscribe($userId=null){
-
        $this->subscriptions()->create([
       'user_id'=>$userId?:auth()->id()
       ]);
        return $this;
  	}
-
  	public function unsubscribe($userId=null){
-
        $this->subscriptions()
        ->where(['user_id'=>$userId?:auth()->id()])
        ->delete();
@@ -76,7 +72,5 @@ class Question extends Model
 	public function getIsSubscribedToAttribute(){
       return $this->subscriptions()->where('user_id',auth()->id())
       ->exists();	}
-
-
 	
 }

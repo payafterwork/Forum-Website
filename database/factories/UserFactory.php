@@ -1,13 +1,10 @@
 <?php
-
 use App\Answer;
 use App\Question;
 use App\Subject;
 use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
-
-
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
@@ -17,7 +14,6 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
     ];
 });
-
 $factory->define(Question::class, function (Faker $faker) {
     return [
         'user_id' => function(){
@@ -31,7 +27,6 @@ $factory->define(Question::class, function (Faker $faker) {
         } 
      ];
 });
-
 $factory->define(Answer::class, function (Faker $faker) {
     return [
         'user_id' => function(){
@@ -44,8 +39,6 @@ $factory->define(Answer::class, function (Faker $faker) {
         'ans' => $faker->sentence
      ];
 });
-
-
 $factory->define(Subject::class, function (Faker $faker) {
     $name = $faker->word;
     return [
@@ -53,7 +46,6 @@ $factory->define(Subject::class, function (Faker $faker) {
         'subslug' => $name
     ];
 });
-
 $factory->define(\Illuminate\Notifications\DatabaseNotification::class, function ($faker) {
     return [
         'id' => \Ramsey\Uuid\Uuid::uuid4()->toString(),

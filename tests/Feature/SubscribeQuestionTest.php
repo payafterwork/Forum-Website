@@ -1,12 +1,9 @@
 <?php
-
 namespace Tests\Feature;
 use App\Auth;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-
 class SubscribeQuestionTest extends TestCase
 {
    
@@ -22,7 +19,6 @@ class SubscribeQuestionTest extends TestCase
     $this->assertCount(1,$question->subscriptions);
  
  }
-
 /** @test */
  public function user_can_unsubscribe_from_questions(){
     $user = factory('App\User')->create();
@@ -30,9 +26,7 @@ class SubscribeQuestionTest extends TestCase
   $question = factory('App\Question')->create();
   $question->subscribe();
   $this->delete($question->path().'/subscriptions');
-
   $this->assertCount(0,$question->subscriptions);
  }
  
-
 }

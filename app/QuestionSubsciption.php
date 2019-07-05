@@ -1,11 +1,9 @@
 <?php
-
 namespace App;
 use App\User;
 use App\Question;
 use App\Answer;
 use Illuminate\Database\Eloquent\Model;
-
 class QuestionSubsciption extends Model
 {
     protected $fillable =['user_id'];
@@ -20,5 +18,4 @@ class QuestionSubsciption extends Model
     {
         $this->user->notify(new Notifications\QuestionWasUpdated($this->question, $answer));
     }
-
 }

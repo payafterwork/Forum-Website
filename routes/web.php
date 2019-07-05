@@ -27,14 +27,11 @@ Route::delete('/questions/{subject}/{question}/subscriptions','QuestionSubscipti
 Route::post('/answers/{answer}/favourites','FavouriteController@store');
 
 Route::get('/profiles/{user}', 'ProfilesController@show');
-Route::get('/profiles/{user}/notifications/', 'UserNotificationsController@index');
-
-Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy');
-
 Route::delete('/questions/{subject}/{question}','QuestionController@destroy');
 
 Route::delete('/answers/{answer}','AnswerController@destroy');
 Route::patch('/answers/{answer}','AnswerController@update');
 Route::delete('/answers/{answer}/favourites', 'FavouriteController@destroy');
-
+Route::get('/profiles/{user}/notifications/', 'UserNotificationsController@index');
+Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy');
 ?>
