@@ -43,28 +43,23 @@ class ParticipateInTest extends TestCase
 /** @test */ 
    public function unauthorized_cannot_delete_answers()
    {
-        
-     //Guest cannot
-       $answer = factory('App\Answer')->create();
-      
-       $this->delete('/answers/{$answer->id}')
-            ->assertRedirect('/login');
-       //Signed 
-      $user = factory('App\User')->create();
-       $this->be($user);
-      $this->delete('/answers/{$answer->id}')->assertStatus(403);
+       $this->withExceptionHandling();
+      $answer = factory('App\Answer')->create();
+        $this->delete("/answers/{$answer->id}")
+            ->assertRedirect('login');
+        $user = factory('App\User')-> create();
+        $this->be($user);
+        $this->delete("/answers/{$answer->id}")
+            ->assertStatus(403);
      }
           /** @test */ 
       public function autherized_user_can_delete_answers()
     {
-        
-       $user = factory('App\User')-> create();
+        $user = factory('App\User')->create();
        $this->be($user);
-       
-       $answer = factory('App\Answer')->create(['user_id'=>auth()->id()]);
-     
-       $this->delete('/answers/{$answer->id}')->assertStatus(302);
-         $this->assertDatabaseMissing('answers',['id'=> $answer->id]);
+        $answer = factory('App\Answer')->create(['user_id'=>auth()->id()]);      
+        $this->delete("/answers/{$answer->id}")->assertStatus(302);
+        $this->assertDatabaseMissing('answers', ['id' => $answer->id]);
        
     }
    /** @test */
@@ -74,10 +69,10 @@ class ParticipateInTest extends TestCase
        $user = factory('App\User')->create();
        $this->be($user);
        
-       $answer = factory('App\Answer')->create(['user_id'=>$user->id]);
-     
-       $this->patch("/answers/{$answer->id}",['ans'=>'You should be changed']);
-         $this->assertDatabaseHas('answers',['id'=> $answer->id, 'ans'=>'You should be changed']);
+       $answer = factory('App\Answer')->create(['user_id'=>auth()->id()]);
+        $updatedReply = 'You been changed, fool.';
+       $this->patch("/answers/{$answer->id}",['ans'=>$updatedReply]);
+         $this->assertDatabaseHas('answers',['id'=> $answer->id, 'ans'=>$updatedReply]);
        
     
    } 
@@ -85,16 +80,18 @@ class ParticipateInTest extends TestCase
    public function unauthorized_cannot_update_answers()
    {
       
-     //Guest cannot
+     $this->withExceptionHandling();
+         
        $answer = factory('App\Answer')->create();
+        $this->patch("/answers/{$answer->id}")
+            ->assertRedirect('login');
       
-       $response = $this->patch('/answers/{$answer}');
-       $response->assertRedirect('/login');
-       //Signed 
+
       $user = factory('App\User')->create();
        $this->be($user);
-       $answer = factory('App\Answer')->create();
-      $this->patch("/answers/{$answer}")->assertStatus(403);
-     }
+        $this->patch("/answers/{$answer->id}")
+            ->assertStatus(403);
+
+      }      
  
 }

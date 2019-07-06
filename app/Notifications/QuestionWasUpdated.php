@@ -42,7 +42,8 @@ class QuestionWasUpdated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message'=>'Temporary placeholder'
+            'message'=>$this->answer->owner->name. ' answered '.$this->question->qtitle,
+            'link'=>$this->question->path()
         ];
     }
 }
