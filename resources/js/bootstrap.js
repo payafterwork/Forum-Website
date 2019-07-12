@@ -45,7 +45,10 @@ if (token) {
 
 // import Echo from 'laravel-echo'
 window.events = new Vue();
-
+Vue.prototype.authorize = function (handler){
+   let user = window.App.user;
+	return user ? handler(user) : false;
+}
 // window.Pusher = require('pusher-js');
 
 // window.Echo = new Echo({

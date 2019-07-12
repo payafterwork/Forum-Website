@@ -6,7 +6,16 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+<script>
+  window.App = {!!json_encode([
+    
+     'signedIn'=> Auth::check(),
+     'user'=>Auth::user()
 
+    ]) !!};
+
+
+    </script>
     <title>Scholar Alliance</title>
 
     <!-- Scripts -->
@@ -19,6 +28,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
+
+
 <style type="text/css">
       [v-cloak] { display: none; }
       .btn-default { border:1px solid black; }

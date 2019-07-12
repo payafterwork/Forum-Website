@@ -22,10 +22,12 @@ require('./bootstrap');
 Vue.component('flash', require('./components/Flash.vue').default);
 
 Vue.component('answer', require('./components/Answer.vue').default);
+Vue.component('answers', require('./components/Answers.vue').default);
 
 Vue.component('favourite', require('./components/Favourite.vue').default);
 Vue.component('subscribe-button', require('./components/SubscribeButton.vue').default);
 Vue.component('usernotifications', require('./components/UserNotifications.vue').default);
+Vue.component('questionview', require('./pages/Question.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
