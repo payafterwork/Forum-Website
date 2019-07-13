@@ -15,12 +15,16 @@ class AnswerController extends Controller
       $this->validate($request,[
         'ans' => 'required'
        ]);
-      $question->addAnswer([
+     $answer= $question->addAnswer([
           'ans'=>request('ans'),
           'user_id'=>auth()->id()
       ]);
+      if(request()->expectsJson()){
+         return $answer->load('owner');
+      }
        return back()->with('flash','Answer posted!');;
-    }
+      }
+    
 
      /**
      * Delete the given reply.

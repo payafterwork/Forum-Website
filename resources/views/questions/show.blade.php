@@ -27,7 +27,8 @@
                      <p>{{$question->qdetails}}</p>
                      <hr>
                 </div>
-           <answers :data="{{$question->answers}}" @remove="answersCount--">
+           <answers :data="{{$question->answers}}" @remove="answersCount--"
+            @added="answersCount++">
            </answers>     
               <!--    @foreach($question->answers as $answer)
                 <?php $answers = $question->answers()->paginate(1); ?>
@@ -71,11 +72,11 @@
                   
                  @endforeach -->
 
-               
+               <!-- 
                    <div class="card-body">     @if (auth()->check())
-            <div class="card">
+                           <div class="card">
                <div class="card-header">
-
+               
                  <form method="POST" action="{{ $question->path().'/answers'}}">
                   {{ csrf_field() }}
                   <div class="from-group">
@@ -85,16 +86,15 @@
                   </div>
                  </form>
                </div>                   
-              
+                             
+               
+                           </div>
+                         @else
+                           <p><a href="{{ route('login')}}">Sign in</a> to add answer.</p>
+                         @endif
+               
+                         </div> -->
 
-            </div>
-          @else
-            <p><a href="{{ route('login')}}">Sign in</a> to add answer.</p>
-          @endif
-
-          </div>
-
-                   
 
         
 

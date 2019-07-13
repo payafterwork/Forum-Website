@@ -20,6 +20,7 @@ require('./bootstrap');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('flash', require('./components/Flash.vue').default);
+Vue.component('new-answer', require('./components/NewAnswer.vue').default);
 
 Vue.component('answer', require('./components/Answer.vue').default);
 Vue.component('answers', require('./components/Answers.vue').default);
