@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::post('/questions/{subject}/{question}/answers','AnswerController@store');
+Route::get('/questions/{subject}/{question}/answers','AnswerController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/questions','QuestionController@store');
 Route::get('/questions/create','QuestionController@create');

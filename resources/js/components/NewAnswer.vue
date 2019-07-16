@@ -38,7 +38,7 @@
    },
    methods: {
      addAnswer(){
-       axios.post(this.endpoint,{ans: this.ans}).then(response=>{
+       axios.post(location.pathname + '/answers',{ans: this.ans}).then(response=>{
         this.ans = '';
         flash('Answer posted');
         this.$emit('created',response.data);

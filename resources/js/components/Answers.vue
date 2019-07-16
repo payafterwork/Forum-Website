@@ -1,37 +1,49 @@
 <template>
     <div>
-        <div v-for="(answer,index) in items">
+        <div v-for="(answer,index) in items" :key="answer.id">
             <answer :data="answer" @deleted="remove(index)"></answer>
         </div>
-    <new-answer :endpoint="endpoint" @created="add"></new-answer>
+
+           <paginator :dataSet="dataSet" @changed="fetch"></paginator>
+
+        <new-answer @created="add"></new-answer>
     </div>
+
+
 </template>
 
 <script>
     import Answer from './Answer.vue';
     import NewAnswer from './NewAnswer.vue';
-  
-    export default {
-        props: ['data'],
-        components: { Answer, NewAnswer},
+    import collection from '../mixins/collection.js';
+
+ export default {
+        components: { Answer, NewAnswer },
+        mixins: [collection],
         data() {
-            return {
-                items: this.data,
-                endpoint: location.pathname+'/answers'
-               
-            };
+            return { dataSet: false };
+        },
+        created() {
+            this.fetch();
         },
         methods: {
-          add(answer){
-          this.items.push(answer);
-            this.$emit('added');
-          
-          },
-          remove(index){
-            this.items.splice(index,1);
-            this.$emit('remove');
-            flash('Answer deleted')
-          }
+            fetch(page) {
+                axios.get(this.url(page)).then(this.refresh);
+            },
+            url(page) {
+                if (! page) {
+                    let query = location.search.match(/page=(\d+)/);
+                    page = query ? query[1] : 1;
+                }
+                return `${location.pathname}/answers?page=${page}`;
+            },
+            refresh({data}) {
+                this.dataSet = data;
+                this.items = data.data;
+
+                window.scrollTo(0,0);
+            }
         }
     }
+
 </script>

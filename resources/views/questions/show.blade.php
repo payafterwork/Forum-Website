@@ -27,7 +27,7 @@
                      <p>{{$question->qdetails}}</p>
                      <hr>
                 </div>
-           <answers :data="{{$question->answers}}" @remove="answersCount--"
+           <answers  @removed="answersCount--"
             @added="answersCount++">
            </answers>     
               <!--    @foreach($question->answers as $answer)

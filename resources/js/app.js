@@ -21,6 +21,7 @@ require('./bootstrap');
 
 Vue.component('flash', require('./components/Flash.vue').default);
 Vue.component('new-answer', require('./components/NewAnswer.vue').default);
+Vue.component('paginator', require('./components/Paginator.vue').default);
 
 Vue.component('answer', require('./components/Answer.vue').default);
 Vue.component('answers', require('./components/Answers.vue').default);

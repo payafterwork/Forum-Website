@@ -19,10 +19,10 @@ trait Favouritable{
    /**
      * Unfavorite the current reply.
      */
-    public function unfavorite()
+    public function unfavourite()
     {
         $attributes = ['user_id' => auth()->id()];
-        $this->favorites()->where($attributes)->delete();
+        $this->favourites()->where($attributes)->delete();
     }
 
     public function getIsFavouritedAttribute(){

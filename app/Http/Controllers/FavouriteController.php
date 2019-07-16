@@ -28,7 +28,7 @@ class FavouriteController extends Controller
 
     public function destroy(Answer $answer)
     {
-        $answer->unfavorite();
+        $answer->unfavourite();
     }
 
 }

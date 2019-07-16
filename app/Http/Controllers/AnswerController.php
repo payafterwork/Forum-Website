@@ -10,6 +10,11 @@ class AnswerController extends Controller
     {
       $this->middleware('auth')->only(['store','destroy','update']);
     }
+
+    public function index($channelId, Question $question){
+        return $question->answers()->paginate(1);
+
+    }
     public function store(Request $request,$subjectid, Question $question)
     {  
       $this->validate($request,[
