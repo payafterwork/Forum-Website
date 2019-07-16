@@ -12,7 +12,7 @@ class AnswerController extends Controller
     }
 
     public function index($channelId, Question $question){
-        return $question->answers()->paginate(1);
+        return $question->answers()->paginate(10);
 
     }
     public function store(Request $request,$subjectid, Question $question)

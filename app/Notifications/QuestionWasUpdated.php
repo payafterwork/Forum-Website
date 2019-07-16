@@ -43,7 +43,7 @@ class QuestionWasUpdated extends Notification
     {
         return [
             'message'=>$this->answer->owner->name. ' answered '.$this->question->qtitle,
-            'link'=>$this->question->path()
+            'link'=>$this->answer->path()
         ];
     }
 }
