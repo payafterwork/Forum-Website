@@ -44,6 +44,8 @@ class ReadQuestionTest extends TestCase
 
    }
 
+
+
     /** @test */
    public function user_can_filter_question_wrt_subject()
    {
@@ -68,32 +70,48 @@ class ReadQuestionTest extends TestCase
       }
 
 
-    /** @test  MADE MY OWN CUSTOM SOLUTION using 'answer_count' with
-    sortByDesc('answers_count') which doesn't return JSON in descending but in browser shows correct descending question. FIND OUT WHY! 
+    /** @test 
 
    public function user_can_filter_question_by_mostanswered()
    {
     
     $question = factory('App\Question')->create();
-
+     
     $questionWithThreeAnswers= factory('App\Question')->create();
-    factory('App\Answer')->create(['question_id'=>$questionWithThreeAnswers->id],3);
-   
+    factory('App\Answer')->create(['question_id'=>$questionWithThreeAnswers->id]);
+    factory('App\Answer')->create(['question_id'=>$questionWithThreeAnswers->id]);
+    factory('App\Answer')->create(['question_id'=>$questionWithThreeAnswers->id]);
+ 
 
     $questionWithTwoAnswers= factory('App\Question')->create();
-    factory('App\Answer')->create(['question_id'=>$questionWithTwoAnswers->id],2);
+    factory('App\Answer')->create(['question_id'=>$questionWithTwoAnswers->id]);
+    factory('App\Answer')->create(['question_id'=>$questionWithTwoAnswers->id]);
 
-    $questionWithOneAnswer= factory('App\Question')->create();
-    factory('App\Answer')->create(['question_id'=>$questionWithOneAnswer->id],1);
+    $questionWithNoAnswer= factory('App\Question')->create();
 
-    $response=$this->getJson('questions?mostanswered=1')->json();
+    $response=$this->get('/questions?mostanswered=1');
+  
 
-    $this->assertEquals([3,2,0], array_column($response,'answer_count'));
+    $this->assertEquals([0,1,2], array_column($response,'answer_count'));
       
    
 
-  }
-  */
+  } 
+  *
+
+
+
+ /**  @test */
+  public function user_can_filter_question_by_unanswered()
+   {   $questionWithNoAnswer = factory('App\Question')->create();
+       $questionwithanswer = factory('App\Question')->create();
+       $answer = factory('App\Answer')->create(['question_id'=>$questionwithanswer->id]);
+      $this->get('questions?unanswered=1')
+           ->assertSee($questionWithNoAnswer->qtitle)
+            ->assertDontSee($questionwithanswer->qtitle);
+
+   }
+
 
   /** @test */
   function user_can_request_answers(){
@@ -107,6 +125,8 @@ class ReadQuestionTest extends TestCase
   $this->assertEquals(2,$response['total']);
   
   }
+
+
 
 
 }

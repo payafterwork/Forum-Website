@@ -50,6 +50,8 @@
                     <ul class="navbar-nav mr-auto">
                     <li><a href="/questions">All Question</a></li>
                     <li><a href="/questions?mostanswered=1">Popular All Time</a></li>
+                <li><a href="/questions?unanswered=1">Unanswered Ques</a></li>
+
                     @if(auth()->check()) 
                     <li><a href="/questions?by={{auth()->user()->name}}">My Questions</a></li>
                     <li><a href="/profiles/{{auth()->user()->name}}">My Profile</a></li>

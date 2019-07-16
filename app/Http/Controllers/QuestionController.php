@@ -32,6 +32,9 @@ class QuestionController extends Controller
       if($mostanswered = request('mostanswered')){
         $questions = $questions->sortByDesc('answers_count');
        }
+       if($unanswered = request('unanswered')){
+        $questions = $questions->where('answers_count',0);
+       }
         if(request()->wantsJson()){
         return $questions;
        }
