@@ -1,5 +1,5 @@
 <template>
-              <div :id="'answer'+id" class="card-body">
+              <div :id="'answer-'+id" class="card-body">
             <p class="flex">
                        <a :href="'/profiles/'+data.owner.name" v-text="data.owner.name"></a> said <span v-text="ago"></span> ..
                      </p>

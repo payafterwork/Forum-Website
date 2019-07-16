@@ -55847,7 +55847,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "card-body", attrs: { id: "answer" + _vm.id } },
+    { staticClass: "card-body", attrs: { id: "answer-" + _vm.id } },
     [
       _c("p", { staticClass: "flex" }, [
         _c("a", {
