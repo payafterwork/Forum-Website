@@ -4,6 +4,7 @@ use Auth;
 use App\Answer;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\QuestionHasNewAnswer;
 use Illuminate\Database\Eloquent\Builder;
 class Question extends Model
 {   
@@ -37,17 +38,16 @@ class Question extends Model
 	public function addAnswer($answer)
 	{
 		$answer = $this->answers()->create($answer);
-		 // Prepare notifications for all subscribers.
-        $this->subscriptions
+		$this->notifySubscribers($answer);
+   
+		return $answer;
+	}
+
+	public function notifySubscribers($answer){
+		 $this->subscriptions
             ->where('user_id', '!=', $answer->user_id)
             ->each
             ->notify($answer);
-		/*foreach($this->subscriptions as $subscription){
-		if($subscription->user_id!=$answer->user_id){
-			$subscription->user->notify(new Notifications\QuestionWasUpdated($this, $answer));
-		}
-		}*/
-		return $answer;
 	}
 	public function subject() 
 	{

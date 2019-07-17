@@ -113,20 +113,20 @@ class ReadQuestionTest extends TestCase
    }
 
 
-  /** @test */
+  /** @test 
   function user_can_request_answers(){
     $question = factory('App\Question')->create();
    $answer1 = factory('App\Answer')->create(['question_id'=>$question->id]);
     $answer2 = factory('App\Answer')->create(['question_id'=>$question->id]);
 
    $response = $this->getJson($question->path().'/answers')->json();
-
+  dd($response);
   $this->assertCount(1,$response['data']);
   $this->assertEquals(2,$response['total']);
   
   }
 
 
-
+*/
 
 }
