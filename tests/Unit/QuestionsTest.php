@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use App\Notifications\QuestionWasUpdated;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -34,6 +36,21 @@ class QuestionsTest extends TestCase
          'user_id'=>1
         ]);
         $this->assertCount(1,$question->answers);
+    }
+
+
+    /** @test */
+    public function question_can_notify_all_registered_subscribers()
+    {   Notification::fake();
+          $user = factory('App\User')->create();
+       $this->be($user); 
+ $question = factory('App\Question')->create()->subscribe();
+$question->addAnswer([
+  'user_id'=>factory('App\User')->create()->id,
+// An answer from someone else
+  'ans'=>'Some answer'
+  ]);
+Notification::assertSentTo(auth()->user(),QuestionWasUpdated::class);
     }
    
       /** @test */

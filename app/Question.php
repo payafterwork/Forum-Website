@@ -48,7 +48,7 @@ class Question extends Model
             ->where('user_id', '!=', $answer->user_id)
             ->each
             ->notify($answer);
-	}
+}
 	public function subject() 
 	{
 		return $this->belongsTo(Subject::class);
