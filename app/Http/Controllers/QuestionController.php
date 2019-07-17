@@ -5,6 +5,7 @@ use App\Subject;
 use Illuminate\Http\Request;
 use View;
 use App\User;
+use Carbon\Carbon;
 class QuestionController extends Controller
 {
     /**
@@ -90,6 +91,11 @@ class QuestionController extends Controller
      */
     public function show($subjectid, Question $question) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
     {  
+    if(auth()->check()){
+      auth()->user()->read($question);
+     
+     }
+
      return view('questions.show', compact('question'));
     }
       

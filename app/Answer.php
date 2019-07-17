@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {    
      use Favouritable,RecordsActivity;
+     protected $touches = ['question'];
      protected $fillable = ['rating','ans','user_id'];
      protected $with = ['owner','favourites'];
      protected $appends = ['favouritesCount','isFavourited'];

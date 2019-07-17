@@ -39,4 +39,9 @@ class User extends Authenticatable
     public function activity(){
         return $this->hasMany(Activity::class)->latest();
     }
+
+    public function read($question){
+        $key = sprintf("users.%s.visits.%s",auth()->id(),$question->id);
+     cache()->forever($key,\Carbon\Carbon::now());
+    }
 }

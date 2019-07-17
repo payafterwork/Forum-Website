@@ -105,6 +105,20 @@ Notification::assertSentTo(auth()->user(),QuestionWasUpdated::class);
 
       }
 
+      /** @test */
+    public function question_can_check_if_auth_user_read_all_answers(){
+     $user = factory('App\User')->create();
+     $this->be($user);
+     $question = factory('App\Question')->create();
+     $this->assertTrue($question->hasUpdatesFor(auth()->user()));
+      $user->read($question);
+
+          $this->assertFalse($question->hasUpdatesFor(auth()->user()));
+
+           
+    
+    }
+
 
    
 }
