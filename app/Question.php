@@ -4,8 +4,9 @@ use Auth;
 use App\Answer;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use App\Events\QuestionHasNewAnswer;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\YouWereMentioned;
 class Question extends Model
 {   
 	use RecordsActivity;
@@ -38,6 +39,7 @@ class Question extends Model
 	public function addAnswer($answer)
 	{
 		$answer = $this->answers()->create($answer);
+		$this->notifyMentionedUsers($answer);
 		$this->notifySubscribers($answer);
    
 		return $answer;
@@ -49,6 +51,13 @@ class Question extends Model
             ->each
             ->notify($answer);
 }
+
+ public function notifyMentionedUsers($answer){
+ 	  
+
+      $users = User::whereIn('name', $answer->mentionedUsers($answer))->get()->filter();
+       Notification::send($users, new YouWereMentioned($answer));
+ }
 	public function subject() 
 	{
 		return $this->belongsTo(Subject::class);

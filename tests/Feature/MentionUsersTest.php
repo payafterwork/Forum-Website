@@ -24,9 +24,7 @@ class MentionUsersTest extends TestCase
                 // An answer from someone else
             'ans'=>'@HarshitBatra look at this.'
          ]);
-         $this->json('post', $question->path() . '/answers', $answer->toArray());
-       
-         $this->assertCount(1,$harshit->notifications);
+          $this->assertCount(1,$harshit->notifications);
      
     }
 }

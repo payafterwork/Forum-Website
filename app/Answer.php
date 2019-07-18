@@ -22,5 +22,10 @@ class Answer extends Model
     {
         return $this->question->path() . "#answer-{$this->id}";
     }
+
+    public function mentionedUsers($answer){
+      preg_match_all('/\@([^\s\.]+)/', $answer->ans, $matches);
+        return $matches[1];
+    }
    
 } 

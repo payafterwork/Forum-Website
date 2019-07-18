@@ -16,4 +16,15 @@ class AnswerTest extends TestCase
       $answer = factory('App\Answer')->create();
       $response = $this->assertInstanceOf('App\User',$answer->owner);   
     }
+     /** @test */
+    public function can_detect_all_mentioned_users_in_ans()
+    {
+      $answer = factory('App\Answer')->create([
+			'ans' => "@JaneDoe wants to talk to @JohnDoe"
+      ]);
+      $this->assertEquals(['JaneDoe','JohnDoe'],$answer->mentionedUsers($answer));
+    }
+
+    
+
 }

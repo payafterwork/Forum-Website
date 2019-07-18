@@ -5,8 +5,6 @@ use App\Question;
 use App\User;
 use Illuminate\Auth\Middleware\Auth;
 use Illuminate\Http\Request;
-use App\Notifications\YouWereMentioned;
-use Illuminate\Support\Facades\Notification;
 class AnswerController extends Controller
 {
     function __construct()
@@ -27,12 +25,6 @@ class AnswerController extends Controller
           'ans'=>request('ans'),
           'user_id'=>auth()->id()
       ]);
-        preg_match_all('/\@([^\s\.]+)/', $answer->ans, $matches);
-        $names = $matches[1];
-
-      $users = User::whereIn('name', $names)->get();
-        Notification::send($users, new YouWereMentioned($answer));
-    
       if(request()->expectsJson()){
          return $answer->load('owner');
       }
