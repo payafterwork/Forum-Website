@@ -22,4 +22,5 @@ class Answer extends Model
     {
         return $this->question->path() . "#answer-{$this->id}";
     }
+   
 } 

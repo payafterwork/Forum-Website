@@ -7,7 +7,7 @@ use Tests\TestCase;
 class ParticipateInTest extends TestCase
 {
    use DatabaseMigrations;
-    /** @test */
+
   /** @test */ 
       public function auth_user_can_answer_question()
     {
@@ -92,6 +92,27 @@ class ParticipateInTest extends TestCase
         $this->patch("/answers/{$answer->id}")
             ->assertStatus(403);
 
-      }      
+      }     
+
+       /** @test 
+   public function answers_that_contain_spam_cannot_be_created()
+   {
+      
+       $user = factory('App\User')->create();
+       $this->be($user);
+         $question = factory('App\Question')->create(); 
+       $answer = factory('App\Answer')->create([
+        'ans' => 'Yahoo Customer Support'
+
+       ]);
+       $this->expectException(\Exception::class);
+
+       $this->post($question->path().'/answers'.$answer->toArray());
+       
+       
+    
+   }  */
+
+
  
 }
