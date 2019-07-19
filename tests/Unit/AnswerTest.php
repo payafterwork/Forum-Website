@@ -25,6 +25,17 @@ class AnswerTest extends TestCase
       $this->assertEquals(['JaneDoe','JohnDoe'],$answer->mentionedUsers($answer));
     }
 
+
+     /** @test */
+    public function wraps_mentioned_usernames_in_ans_within_anchor_tags()
+    {
+      $answer = factory('App\Answer')->create([
+			'ans' => "@JaneDoe wants to talk"
+      ]);
+      $this->assertEquals('<a href="/profiles/JaneDoe">@JaneDoe</a> wants to talk',$answer->ans);
+    }
+
+
     
 
 }

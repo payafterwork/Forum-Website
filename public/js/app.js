@@ -55899,7 +55899,7 @@ var render = function() {
               [_vm._v("cancel")]
             )
           ])
-        : _c("div", { domProps: { textContent: _vm._s(_vm.ans) } }),
+        : _c("div", { domProps: { innerHTML: _vm._s(_vm.ans) } }),
       _vm._v(" "),
       _vm.canUpdate
         ? _c("div", [

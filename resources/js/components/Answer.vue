@@ -15,7 +15,7 @@
                        <button @click="update">update</button>
                         <button @click="editing=false">cancel</button> 
                    </div>
-                 <div v-else v-text="ans"> </div>
+                 <div v-else v-html="ans"> </div>
 
                <div v-if="canUpdate">
                  <button @click="editing = true">edit</button>

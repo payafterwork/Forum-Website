@@ -21,6 +21,7 @@ class AnswerController extends Controller
       $this->validate($request,[
         'ans' => 'required'
        ]);
+      
       $answer= $question->addAnswer([
           'ans'=>request('ans'),
           'user_id'=>auth()->id()

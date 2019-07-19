@@ -24,8 +24,12 @@ class Answer extends Model
     }
 
     public function mentionedUsers($answer){
-      preg_match_all('/\@([^\s\.]+)/', $answer->ans, $matches);
+      preg_match_all('/@([\w\-]+)/', $answer->ans, $matches);
         return $matches[1];
+    }
+
+    public function setAnsAttribute($ans){
+     $this->attributes['ans'] = preg_replace('/@([\w\-]+)/','<a href="/profiles/$1">$0</a>',$ans);
     }
    
 } 

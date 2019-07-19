@@ -97,7 +97,7 @@ class ParticipateInTest extends TestCase
        /** @test 
    public function answers_that_contain_spam_cannot_be_created()
    {
-      
+       
        $user = factory('App\User')->create();
        $this->be($user);
          $question = factory('App\Question')->create(); 
@@ -105,8 +105,9 @@ class ParticipateInTest extends TestCase
         'ans' => 'Yahoo Customer Support'
 
        ]);
-       $this->expectException(\Exception::class);
-
+       $this->withoutExceptionHandling();
+      $this->expectException(\Exception::class);
+      dd($l);
        $this->post($question->path().'/answers'.$answer->toArray());
        
        
