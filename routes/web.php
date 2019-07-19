@@ -35,4 +35,6 @@ Route::patch('/answers/{answer}','AnswerController@update');
 Route::delete('/answers/{answer}/favourites', 'FavouriteController@destroy');
 Route::get('/profiles/{user}/notifications/', 'UserNotificationsController@index');
 Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy');
+Route::get('api/users','Api\UsersController@index');
+
 ?>

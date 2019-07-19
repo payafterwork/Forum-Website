@@ -4,6 +4,11 @@
 <questionview :initial-answers-count="{{ $question->answers_count}}" inline-template>
 <div class="container">
 
+@section('header')
+
+ <link rel="stylesheet" href="/css/vendor/jquery.atwho.css">
+@endsection
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
