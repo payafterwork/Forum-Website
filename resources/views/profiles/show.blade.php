@@ -3,19 +3,12 @@
 @section('content')
 <div class="container">
   
-  {{$profileUser->name}}
-  @can('update',$profileUser)
-     <form method="POST" action="{{ route('avatar',$profileUser)}}" enctype="multipart/form-data">
-      {{csrf_field()}}
-     <input type="file" name="avatar">
-     <button type="submit">Add profilepic</button>
-     </form>
-     @if ($errors->any()) @foreach ($errors->all() as $error)
-     {{ $error }}
-      @endforeach @endif
+  
+     <!--
+ -->
      
-  @endcan
-  <img src="/storage/{{ $profileUser->avatar_path }}" width="200" height="200">
+ 
+   <avatar-form :user="{{ $profileUser }}"></avatar-form>
   created account
   <small>{{$profileUser->created_at->diffForHumans()}}</small>
 

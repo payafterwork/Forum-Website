@@ -20,7 +20,7 @@ class UserTest extends TestCase
       $userwithavatar = factory('App\User')->create(['avatar_path'=>'avatars/me.jpg']);
         $this->assertEquals('avatars/me.jpg',$userwithavatar->avatars());
         $userwithoutavatar = factory('App\User')->create();
-        $this->assertEquals('avatars/default.jpg',$userwithoutavatar->avatars());     
+        $this->assertEquals('avatars/default.jpeg',$userwithoutavatar->avatars());     
 
    }
 

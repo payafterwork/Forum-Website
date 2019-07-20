@@ -45,7 +45,7 @@ class User extends Authenticatable
      cache()->forever($key,\Carbon\Carbon::now());
     }
     public function avatars(){
-        return $this->avatar_path ?: 'avatars/default.jpg';
+        return $this->avatar_path ?: 'avatars/default.jpeg';
     }
 
 }
