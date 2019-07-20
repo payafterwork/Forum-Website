@@ -44,4 +44,8 @@ class User extends Authenticatable
         $key = sprintf("users.%s.visits.%s",auth()->id(),$question->id);
      cache()->forever($key,\Carbon\Carbon::now());
     }
+    public function avatars(){
+        return $this->avatar_path ?: 'avatars/default.jpg';
+    }
+
 }

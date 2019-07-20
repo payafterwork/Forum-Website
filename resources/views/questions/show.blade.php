@@ -27,7 +27,8 @@
                      
                    </form>
                    @endcan
-                    <div class="card-header">{{$question->creator->name}} asked
+                    <div class="card-header"><img src="/storage/{{ $question->creator->avatars() }}" width="50" height="50">
+                      {{$question->creator->name}} asked
                     <h3>{{$question->qnop}}<h3><a href="{{$question->path()}}">{{$question->qtitle}}</a></h4>
                      <p>{{$question->qdetails}}</p>
                      <hr>
