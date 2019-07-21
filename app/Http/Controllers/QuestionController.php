@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use View;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Redis;
+
 class QuestionController extends Controller
 {
     /**
@@ -39,7 +41,14 @@ class QuestionController extends Controller
         if(request()->wantsJson()){
         return $questions;
        }
-       return view('questions.index',compact('questions'));
+
+      $trending = collect(Redis::zrevrange('trending_questions',0,4))->map(function ($question){
+        return json_decode($question);
+       });
+
+
+
+       return view('questions.index',compact('questions','trending'));
  /*2nd
  SUBJECT HAS MANY QUESTIONS WAY (TDD DIDN'T PASS-!!!!!)       
      if($subject->exists){
@@ -95,6 +104,10 @@ class QuestionController extends Controller
       auth()->user()->read($question);
      
      }
+
+     Redis::zincrby('trending_questions',1,json_encode(['title'=>$question->qtitle,'path'=>$question->path()
+      ])); // (what,incrementby,data)
+
 
      return view('questions.show', compact('question'));
     }
