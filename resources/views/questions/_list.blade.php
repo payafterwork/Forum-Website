@@ -10,6 +10,8 @@
                      {{str_plural('answer',$question->answers_count)}}   
                      </strong></a>
                      <p>{{$question->qdetails}}</p>
+                     {{$question->visits}} views
                      <hr>
+
                     @endforeach
                 </div>

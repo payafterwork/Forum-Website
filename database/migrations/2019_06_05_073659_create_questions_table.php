@@ -19,6 +19,7 @@ class CreateQuestionsTable extends Migration
             $table->string('qnop');
             $table->string('qtitle');
             $table->unsignedInteger('subject_id');
+            $table->unsignedInteger('visits')->default(0);
             $table->longText('qdetails');
             $table->timestamps();
         });

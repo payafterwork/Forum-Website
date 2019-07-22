@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Redis;
+
 
 class QuestionsTest extends TestCase
 {   
@@ -114,10 +116,12 @@ Notification::assertSentTo(auth()->user(),QuestionWasUpdated::class);
       $user->read($question);
 
           $this->assertFalse($question->hasUpdatesFor(auth()->user()));
-
-           
-    
     }
+     
+
+      
+
+
 
 
    

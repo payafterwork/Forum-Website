@@ -22,6 +22,7 @@ $factory->define(Question::class, function (Faker $faker) {
         'qnop' => $faker->sentence,
         'qtitle' => $faker->sentence,
         'qdetails' => $faker->sentence,
+        'visits' => 0,
         'subject_id' => function(){
             return factory('App\Subject')->create()->id;
         } 

@@ -106,7 +106,7 @@ class QuestionController extends Controller
      }
 
      $trending->pushh($question);
-
+     $question->increment('visits');
      return view('questions.show', compact('question'));
     }
       

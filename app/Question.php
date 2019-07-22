@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\YouWereMentioned;
+use Illuminate\Support\Facades\Redis;
+
 class Question extends Model
 {   
 	use RecordsActivity;
@@ -86,5 +88,10 @@ class Question extends Model
       	$key = sprintf("users.%s.visits.%s",auth()->id(),$this->id);
       	return $this->updated_at > cache($key);
       }
-	
+
+   
+    public function visits(){
+     
+    }  
+   
 }

@@ -129,4 +129,17 @@ class ReadQuestionTest extends TestCase
 
 */
 
+  /** @test */
+    public function question_records_each_visit_each_time_viewed(){
+     
+     $question = factory('App\Question')->create();
+     $this->assertSame(0,$question->visits);
+    $this->call('GET',$question->path());
+     $this->assertEquals(1,$question->fresh()->visits);
+     
+    }
+
+
+
+
 }
