@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Question;
 use App\Subject;
+use App\Trending;
 use Illuminate\Http\Request;
 use View;
 use App\User;
@@ -19,7 +20,7 @@ class QuestionController extends Controller
     {
         $this->middleware('auth')->only(['store','create','destroy']);
     }
-    public function index($subjectslug = null,Question $question) /* 2nd  (Subject $subject)*/
+    public function index($subjectslug = null,Question $question,Trending $trending) /* 2nd  (Subject $subject)*/
     {   /*1st  QUESTION BELONGS TO SUBJECT WAY*/
        if($subjectslug) {
         $subjectid = Subject::where('subslug',$subjectslug)->first()->id;
@@ -42,13 +43,12 @@ class QuestionController extends Controller
         return $questions;
        }
 
-      $trending = collect(Redis::zrevrange('trending_questions',0,4))->map(function ($question){
-        return json_decode($question);
-       });
 
 
-
-       return view('questions.index',compact('questions','trending'));
+       return view('questions.index',[
+           'questions'=>$questions,
+           'trending'=>$trending->get()
+       ]);
  /*2nd
  SUBJECT HAS MANY QUESTIONS WAY (TDD DIDN'T PASS-!!!!!)       
      if($subject->exists){
@@ -98,16 +98,14 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show($subjectid, Question $question) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
+    public function show($subjectid, Question $question,Trending $trending) //$subjectId as we wish to make our url of type /questions/channel/question->id. But I fond that even if I wrote $AddAnythingHeretoPreventErrorJefreyWroteSubjectId still works. Means anything with $___ is accepted to make it work. Don't know why? Find out!!!!!!!!!!!
     {  
     if(auth()->check()){
       auth()->user()->read($question);
      
      }
 
-     Redis::zincrby('trending_questions',1,json_encode(['title'=>$question->qtitle,'path'=>$question->path()
-      ])); // (what,incrementby,data)
-
+     $trending->pushh($question);
 
      return view('questions.show', compact('question'));
     }
