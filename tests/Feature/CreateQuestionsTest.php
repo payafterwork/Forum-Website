@@ -20,6 +20,20 @@ class CreateQuestionsTest extends TestCase
                ->assertSee($question->qdetails);
        
     } 
+
+    /** @test */ 
+      public function auth_user_must_confirm_email_address_before_creating_ques()
+    {
+        $this->withExceptionHandling();
+       $user = factory('App\User')-> create();
+       $this->be($user);
+       $question = factory('App\Question')->make();
+       $this->post('/questions',$question->toArray())
+       ->assertRedirect('/questions')->with('flash','You must confirm email address.');
+       
+    } 
+    
+
       /** @test */ 
       public function autherized_user_can_delete_questions()
     {

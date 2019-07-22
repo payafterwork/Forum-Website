@@ -77,6 +77,8 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {  
+        
+
         $this->validate($request,[
           'qtitle' => 'required',
           'qdetails'=> 'required',

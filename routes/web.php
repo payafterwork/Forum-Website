@@ -19,7 +19,7 @@ Auth::routes();
 Route::post('/questions/{subject}/{question}/answers','AnswerController@store');
 Route::get('/questions/{subject}/{question}/answers','AnswerController@index');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('/questions','QuestionController@store');
+Route::post('/questions','QuestionController@store')->middleware('must-be-confirmed');
 Route::get('/questions/create','QuestionController@create');
 Route::get('/questions/{subject?}','QuestionController@index');
 Route::get('/questions/{subject}/{question}','QuestionController@show');
