@@ -25,7 +25,7 @@ class CreateQuestionsTest extends TestCase
       public function auth_user_must_confirm_email_address_before_creating_ques()
     {
         $this->withExceptionHandling();
-       $user = factory('App\User')-> create();
+       $user = factory('App\User')->states('unconfirmed')->create();
        $this->be($user);
        $question = factory('App\Question')->make();
        $this->post('/questions',$question->toArray())

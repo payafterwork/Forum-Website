@@ -8,9 +8,13 @@ use App\User;
 class RegisterConfirmationController extends Controller
 {
     public function index(){
-    	User::where('confirmation_token',request('token'))
-    	   ->firstOrFail()
-    	   ->confirm();
+    	$user = User::where('confirmation_token', request('token'))->first();
+        if (! $user) {
+            return redirect('/questions')->with('flash', 'Unknown token.');
+        }
+        $user->confirm();
+        
+
     	return redirect('/questions')
     	->with('flash',"Account confirmed");   
     }

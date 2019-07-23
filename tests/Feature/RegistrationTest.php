@@ -27,19 +27,28 @@ class RegistrationTest extends TestCase
    /** @test */
    public function user_can_confirm_email_address()
    { 
+     Mail::fake();
+     event( new Registered($user = factory('App\User')->states('unconfirmed')->create([
+        'name' => 'John',
+        'email' => 'john@example.com',
+        'password' => 'foobar'
+    ]) ));
 
-            $this->post(route('register'), [
-            'name' => 'John',
-            'email' => 'john@example.com',
-            'password' => 'foobar',
-            'password_confirmation' => 'foobar'
-        ]);
-        $user = User::whereName('John')->first();
-        $this->assertFalse($user->confirmed);
-        $this->assertNotNull($user->confirmation_token);
-        $this->get(route('register.confirm', ['token' => $user->confirmation_token]))
-            ->assertRedirect(route('questions'));
+     $user = User::where('name','John')->first();
+   
+     $this->assertFalse($user->confirmed);
+     $this->get('/register/confirm', ['token' => $user->confirmation_token])
+            ->assertRedirect('/questions');
         $this->assertTrue($user->fresh()->confirmed);
-}
+    
+   }
+       /** @test */
+    function confirming_an_invalid_token()
+    {
+        $this->get('/register/confirm', ['token' => 'invalid'])
+            ->assertRedirect('/questions')
+            ->assertSessionHas('flash', 'Unknown token.');
+    }
+
 
 }
