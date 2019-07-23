@@ -34,9 +34,10 @@ Route::delete('/answers/{answer}','AnswerController@destroy');
 Route::patch('/answers/{answer}','AnswerController@update');
 Route::delete('/answers/{answer}/favourites', 'FavouriteController@destroy');
 Route::get('/profiles/{user}/notifications/', 'UserNotificationsController@index');
+
+Route::get('/register/confirm','Api\RegisterConfirmationController@index');
 Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy');
 Route::get('api/users','Api\UsersController@index');
 Route::post('api/users/{user}/avatar','Api\UsersAvatarController@store')->middleware('auth')->name('avatar');
-
 
 ?>
