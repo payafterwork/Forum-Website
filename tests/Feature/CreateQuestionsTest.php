@@ -63,7 +63,7 @@ class CreateQuestionsTest extends TestCase
       
        $response = $this->delete($question->path());
        $response->assertRedirect('/login');
-       //Signed in but not the owner of thread
+       //Signed in but not the owner of question
        $user = factory('App\User')-> create();
        $this->be($user);
        $response = $this->delete($question->path());
@@ -124,20 +124,22 @@ class CreateQuestionsTest extends TestCase
     public function question_requires_unique_slug(){
          $user = factory('App\User')->create();
          $this->be($user);
-        $question = factory('App\Question')->create(['qtitle'=>'Help Me','slug'=>'help-me']);
+       $question0 = factory('App\Question')->create(['qtitle'=>'Just some random Q to interrupt id']);
+        $question = factory('App\Question')->create(['qtitle'=>'Help Me']);
       
-      $this->assertEquals($question->fresh->slug,'help-me');
-      $this->post('/questions',$question->toArray());
-      
-     $this->assertTrue(Question::whereSlug('foo-title-2')->exists());
+       $this->assertEquals($question->slug, 'help-me');
+        $question = $this->postJson('/questions', $question->toArray())->json();
+        $this->assertEquals("help-me-{$question['id']}", $question['slug']);
+    
+    }
 
-      $this->post('/questions',$question->toArray());
-
-     $this->assertTrue(Question::whereSlug('foo-title-3')->exists());
-
-  
-
-      
+    /** @test */
+    function a_question_with_a_title_that_ends_in_a_number_should_generate_the_proper_slug()
+    {   $user = factory('App\User')->create();
+         $this->be($user);
+        $question = factory('App\Question')->create(['qtitle' => 'Some Title 24']);
+        $question = $this->postJson('/questions', $question->toArray())->json();
+        $this->assertEquals("some-title-24-{$question['id']}", $question['slug']);
     }
 }
 ?>

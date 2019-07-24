@@ -23,6 +23,10 @@ class Question extends Model
      	static::deleting(function ($question){
      	 $question->answers->each->delete();
     });
+
+        static::created(function ($question) {
+            $question->update(['slug' => $question->qtitle]);
+        });
      	
      }
      
@@ -99,27 +103,12 @@ class Question extends Model
      */
     public function setSlugAttribute($value)
     {
-        if (static::whereSlug($slug = str_slug($value))->exists()) {
-            $slug = $this->incrementSlug($slug);
+      if (static::whereSlug($slug = str_slug($value))->exists()) {
+            $slug = "{$slug}-{$this->id}";
         }
         $this->attributes['slug'] = $slug;
     }
-    /**
-     * Increment a slug's suffix.
-     *
-     * @param  string $slug
-     * @return string
-     */
-    protected function incrementSlug($slug)
-    {
-        $max = static::where('qtitle',$this->qtitle)->latest('id')->value('slug');
-        if (is_numeric($max[-1])) {
-            return preg_replace_callback('/(\d+)$/', function ($matches) {
-                return $matches[1] + 1;
-            }, $max);
-        }
-        return "{$slug}-2";
-    }
+   
    
    
 }
