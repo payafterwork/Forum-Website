@@ -35,7 +35,13 @@ class AnswerTest extends TestCase
       $this->assertEquals('<a href="/profiles/JaneDoe">@JaneDoe</a> wants to talk',$answer->ans);
     }
 
+    /** @test */
+    public function knows_if_it_is_best_answer(){
+   $answer = factory('App\Answer')->create();
+   $this->assertFalse($answer->isBest());
+   $answer->question->update(['best_answer_id'=>$answer->id]);
+   $this->assertTrue($answer->fresh()->isBest());
 
-    
+    }    
 
 }

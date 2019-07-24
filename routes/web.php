@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::post('/answers/{answer}/best','BestAnswerController@store')->name('best_answer.store');
 Route::post('/questions/{subject}/{question}/answers','AnswerController@store');
 Route::get('/questions/{subject}/{question}/answers','AnswerController@index');
 Route::get('/home', 'HomeController@index')->name('home');
@@ -23,6 +25,7 @@ Route::post('/questions','QuestionController@store')->middleware('must-be-confir
 Route::get('/questions/create','QuestionController@create');
 Route::get('/questions/{subject?}','QuestionController@index');
 Route::get('/questions/{subject}/{question}','QuestionController@show');
+
 Route::post('/questions/{subject}/{question}/subscriptions','QuestionSubsciptionController@store')->middleware('auth');
 Route::delete('/questions/{subject}/{question}/subscriptions','QuestionSubsciptionController@destroy')->middleware('auth');
 Route::post('/answers/{answer}/favourites','FavouriteController@store');
@@ -39,5 +42,4 @@ Route::get('/register/confirm','Api\RegisterConfirmationController@index');
 Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotificationsController@destroy');
 Route::get('api/users','Api\UsersController@index');
 Route::post('api/users/{user}/avatar','Api\UsersAvatarController@store')->middleware('auth')->name('avatar');
-
 ?>

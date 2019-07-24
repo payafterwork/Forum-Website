@@ -31,5 +31,9 @@ class Answer extends Model
     public function setAnsAttribute($ans){
      $this->attributes['ans'] = preg_replace('/@([\w\-]+)/','<a href="/profiles/$1">$0</a>',$ans);
     }
+
+    public function isBest(){
+      return $this->question->best_answer_id == $this->id;
+    }
    
 } 

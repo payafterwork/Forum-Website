@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Redis;
 class Question extends Model
 {   
 	use RecordsActivity;
-     protected $fillable = ['rating','ans','qnop','qtitle','qdetails','user_id','subject_id','slug'];
+     protected $fillable = ['rating','ans','qnop','qtitle','qdetails','user_id','subject_id','slug','best_answer_id'];
      protected $with = ['creator','subject'];
      protected $appends = ['isSubscribedTo'];
      protected static function boot(){
