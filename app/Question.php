@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Redis;
 class Question extends Model
 {   
 	use RecordsActivity;
-     protected $fillable = ['rating','ans','qnop','qtitle','qdetails','user_id','subject_id'];
+     protected $fillable = ['rating','ans','qnop','qtitle','qdetails','user_id','subject_id','slug'];
      protected $with = ['creator','subject'];
      protected $appends = ['isSubscribedTo'];
      protected static function boot(){
@@ -28,7 +28,7 @@ class Question extends Model
      
 	public function path()
 	{
-		return '/questions/'.$this->subject->subslug.'/'.$this->id;
+		return '/questions/'.$this->subject->subslug.'/'.$this->slug;
 	}
 	public function answers()
 	{
@@ -89,6 +89,37 @@ class Question extends Model
       	return $this->updated_at > cache($key);
       }
 
+      public function getRouteKeyName(){
+         return 'slug';
+      }
+/**
+     * Set the proper slug attribute.
+     *
+     * @param string $value
+     */
+    public function setSlugAttribute($value)
+    {
+        if (static::whereSlug($slug = str_slug($value))->exists()) {
+            $slug = $this->incrementSlug($slug);
+        }
+        $this->attributes['slug'] = $slug;
+    }
+    /**
+     * Increment a slug's suffix.
+     *
+     * @param  string $slug
+     * @return string
+     */
+    protected function incrementSlug($slug)
+    {
+        $max = static::where('qtitle',$this->qtitle)->latest('id')->value('slug');
+        if (is_numeric($max[-1])) {
+            return preg_replace_callback('/(\d+)$/', function ($matches) {
+                return $matches[1] + 1;
+            }, $max);
+        }
+        return "{$slug}-2";
+    }
    
    
 }

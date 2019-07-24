@@ -1,9 +1,11 @@
 <?php
+namespace Tests\Feature;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Activity;
+use App\Question;
 class CreateQuestionsTest extends TestCase
 {
     use DatabaseMigrations;
@@ -11,7 +13,7 @@ class CreateQuestionsTest extends TestCase
       public function auth_user_can_create_question()
     {
         
-       $user = factory('App\User')-> create();
+       $user = factory('App\User')->create();
        $this->be($user);
        $question = factory('App\Question')->make();
        $response = $this->post('/questions',$question->toArray());
@@ -117,6 +119,25 @@ class CreateQuestionsTest extends TestCase
       //If we publish question with invalid subject_id and
       $this->publishQwithValidation(['subject_id'=>999])
            ->assertSessionHasErrors('subject_id'); //then it must show us errors      
+    }
+   /** @test */
+    public function question_requires_unique_slug(){
+         $user = factory('App\User')->create();
+         $this->be($user);
+        $question = factory('App\Question')->create(['qtitle'=>'Help Me','slug'=>'help-me']);
+      
+      $this->assertEquals($question->fresh->slug,'help-me');
+      $this->post('/questions',$question->toArray());
+      
+     $this->assertTrue(Question::whereSlug('foo-title-2')->exists());
+
+      $this->post('/questions',$question->toArray());
+
+     $this->assertTrue(Question::whereSlug('foo-title-3')->exists());
+
+  
+
+      
     }
 }
 ?>

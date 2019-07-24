@@ -22,14 +22,16 @@ $factory->state(App\User::class, 'unconfirmed', function () {
 });
 
 $factory->define(Question::class, function (Faker $faker) {
+    $qtitle = $faker->sentence;
     return [
         'user_id' => function(){
             return factory('App\User')->create()->id;
         },
         'qnop' => $faker->sentence,
-        'qtitle' => $faker->sentence,
+        'qtitle' => $qtitle,
         'qdetails' => $faker->sentence,
         'visits' => 0,
+        'slug'=>str_slug($qtitle),
         'subject_id' => function(){
             return factory('App\Subject')->create()->id;
         } 

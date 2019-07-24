@@ -64,12 +64,12 @@ Notification::assertSentTo(auth()->user(),QuestionWasUpdated::class);
     }
 
     
-  
-    public function question_can_make_string_path()
+   /** @test */
+    public function question_has_string_path()
     { 
 
         $question = factory('App\Question')->create();
-        $this->assertEquals('/questions/'.$question->subject->subslug.'/'.$question->id,$question->path());
+        $this->assertEquals('/questions/'.$question->subject->subslug.'/'.$question->slug,$question->path());
     }
    
     /** @test */

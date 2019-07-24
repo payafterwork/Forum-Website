@@ -89,7 +89,8 @@ class QuestionController extends Controller
             'qtitle'=>request('qtitle'),
             'qdetails'=>request('qdetails'),
             'qnop'=>request('qnop'),
-            'subject_id'=>request('subject_id')  
+            'subject_id'=>request('subject_id'),
+            'slug'=>request('qtitle')
         ]);
        return redirect($question->path())
        ->with('flash','Question created!');
