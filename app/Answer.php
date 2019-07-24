@@ -7,7 +7,7 @@ class Answer extends Model
      protected $touches = ['question'];
      protected $fillable = ['rating','ans','user_id'];
      protected $with = ['owner','favourites'];
-     protected $appends = ['favouritesCount','isFavourited'];
+     protected $appends = ['favouritesCount','isFavourited','isBest'];
    
     public function owner()
     {
@@ -36,4 +36,8 @@ class Answer extends Model
       return $this->question->best_answer_id == $this->id;
     }
    
+   public function getIsBestAttribute()
+    {
+        return $this->isBest();
+    }
 } 

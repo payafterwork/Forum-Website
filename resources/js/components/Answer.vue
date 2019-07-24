@@ -1,5 +1,7 @@
 <template>
-              <div :id="'answer-'+id" class="card-body">
+              <div :id="'answer-'+id"
+              class="card-body" 
+              :class="isBest ? 'panel-success':'panel-default'">
             <p class="flex">
                        <a :href="'/profiles/'+data.owner.name" v-text="data.owner.name"></a> said <span v-text="ago"></span> ..
                      </p>
@@ -19,8 +21,11 @@
 
                <div v-if="canUpdate">
                  <button @click="editing = true">edit</button>
-                              <button @click="destroy">Delete</button>
+                <button @click="destroy">Delete</button>
+               
                </div>
+               <button @click="markBestAnswer" v-show="! isBest">Best Answer</button>
+              
               
                            </div>   
 </template>
@@ -34,8 +39,8 @@
         return {
            editing:false,
            ans:this.data.ans,
-           id: this.data.id
-
+           id: this.data.id,
+           isBest: this.data.isBest,
         }
      },
         computed: {
@@ -48,7 +53,13 @@
              canUpdate(){
             return this.authorize(user => this.data.user_id == user.id);
             // return this.data.user_id == window.App.user_id;
-             }
+             },
+             created(){ 
+            window.events.$on('best-answer-selected', id => {
+               this.isBest = (id === this.id); 
+            });
+        }
+
         },
      methods: {
        update(){
@@ -64,8 +75,18 @@
             axios.delete('/answers/' + this.data.id);
             this.$emit('deleted',this.data.id);
      
+        },
+        markBestAnswer(){
+                axios.post('/answers/' + this.data.id + '/best');
+                window.events.$emit('best-answer-selected', this.data.id);
+
         }
      }
   }
 </script> 
 
+<style>
+.panel-success{
+  background-color:green;
+}
+</style>
